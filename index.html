@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Haulnet: play R.E.P.O. on a server you control</title>
+<meta name="description" content="Haulnet is a free mod for R.E.P.O.: host games on your own PC, a community server or any server by address instead of Photon Cloud. Independent fan project.">
+<link rel="canonical" href="https://haulnet.cc/">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://haulnet.cc/">
+<meta property="og:title" content="Haulnet">
+<meta property="og:description" content="Play R.E.P.O. with friends on a server you control.">
+<meta property="og:image" content="https://haulnet.cc/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="top wrap">
+  <a class="brand" href="/" aria-label="Haulnet home">
+    <picture>
+      <source srcset="/assets/haulnet-logo-on-dark.svg" media="(prefers-color-scheme: dark)">
+      <img src="/assets/haulnet-logo-on-light.svg" alt="haulnet" width="153" height="44">
+    </picture>
+  </a>
+  <nav>
+    <a href="https://servers.haulnet.cc/">Servers</a>
+    <a href="https://github.com/haulnet">GitHub</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <p class="status">Pre-alpha · no release yet</p>
+    <h1>Play R.E.P.O. with friends on a server you&nbsp;control.</h1>
+    <p class="lead">Haulnet is a free mod that lets a game live on your own PC, on a community server or on any
+      server by address instead of Photon Cloud. Low ping when you play nearby, no Photon account, no admin
+      rights. Until you pick Haulnet, the game plays exactly as without the mod.</p>
+    <p class="actions">
+      <a class="button" href="https://github.com/haulnet">Source on GitHub</a>
+      <a class="button ghost" href="https://servers.haulnet.cc/">Community servers</a>
+    </p>
+  </section>
+
+  <section class="wrap">
+    <h2>Three ways to play</h2>
+    <p class="muted">All of them sit on the game's own region page, in a <b>Haulnet</b> tab next to the usual
+      Photon Cloud regions.</p>
+    <div class="cards">
+      <article>
+        <h3>On my PC</h3>
+        <p>Like “Open to LAN”: a server starts inside your game on UDP 27000–27002. Friends reach you over the
+          same network, any VPN you already use, IPv6 or a forwarded port.</p>
+      </article>
+      <article>
+        <h3>Community servers</h3>
+        <p>One row per city from the <a href="https://servers.haulnet.cc/">public server list</a>, with live ping.
+          Haulnet picks a working server of that city for you.</p>
+      </article>
+      <article>
+        <h3>Server by address</h3>
+        <p>Type <code>host</code> or <code>host:port</code> of a server you or a friend runs. It does not have to be
+          listed anywhere.</p>
+      </article>
+    </div>
+    <p>Friends join the way they always do: accept the Steam invite. The invite tells their Haulnet where the game
+      lives. Everyone in a Haulnet game needs Haulnet and the same game version.</p>
+  </section>
+
+  <section class="wrap">
+    <h2>Run a server</h2>
+    <p>The Haulnet server package runs <a href="https://github.com/niansa/LuxonServer">LuxonServer</a>, an
+      open-source Photon-compatible server, with a ready config and a small status endpoint. Docker, Linux and
+      Windows. Keep it private and share the address, or add it to the public list with a pull request to
+      <a href="https://github.com/haulnet/haulnet-servers">haulnet-servers</a>; CI checks every entry.</p>
+  </section>
+
+  <section class="wrap">
+    <h2>Install</h2>
+    <p>The first release will come to Thunderstore (r2modman, Gale) with BepInEx as its only dependency. Until
+      then, Haulnet is built from source. Haulnet is for people who own R.E.P.O. on Steam.</p>
+  </section>
+</main>
+
+<footer class="wrap">
+  <p>Security reports: <a href="mailto:security@haulnet.cc">security@haulnet.cc</a> ·
+    Other questions: <a href="mailto:contact@haulnet.cc">contact@haulnet.cc</a></p>
+  <p>This site sets no cookies and loads nothing from other sites: no analytics, fonts or scripts. It is hosted on
+    GitHub Pages, so GitHub's <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">privacy statement</a>
+    covers its server logs.</p>
+  <p class="small">Haulnet is an independent fan project. It is not affiliated with or endorsed by semiwork
+    (developers of R.E.P.O.) or Exit Games GmbH. "R.E.P.O." and "Photon" are trademarks of their respective
+    owners and are used only to describe compatibility.</p>
+</footer>
+</body>
+</html>
