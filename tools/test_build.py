@@ -94,6 +94,15 @@ class BuildTests(unittest.TestCase):
             self.assertFalse(names & {"tools", ".github", "README.md", ".git"})
             self.assertNotIn("{{", (out / "index.html").read_text(encoding="utf-8"))
 
+    def test_live_block_reads_the_published_list(self):
+        # The live block reads the list itself (ADR 0025); the baked city map is only its fallback.
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "site"
+            build.build(out, offline=True, now=NOW)
+            page = (out / "index.html").read_text(encoding="utf-8")
+            self.assertIn(f'data-list-url="{build.SERVER_LIST}"', page)
+            self.assertIn('data-cities="{}"', page)
+
 
 class PagesTests(unittest.TestCase):
     def test_front_matter(self):
