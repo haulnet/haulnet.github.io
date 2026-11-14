@@ -150,3 +150,33 @@ pre code { background: none; padding: 0; color: inherit; }
   .top { flex-wrap: wrap; }
   .hero { padding-top: 24px; }
 }
+
+/* Documentation pages */
+nav a[aria-current="page"] { color: var(--coral); }
+.docs { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 40px; padding-top: 16px; }
+.docs-nav ul { list-style: none; margin: 0; padding: 0; position: sticky; top: 24px; }
+.docs-nav li { margin: 0 0 4px; }
+.docs-nav a { display: block; padding: 6px 12px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 16px; }
+.docs-nav a[aria-current="page"] { background: var(--card); border: 1px solid var(--line); color: var(--fg); }
+.doc { min-width: 0; }
+.doc h1 { font-size: clamp(30px, 5vw, 42px); margin-top: 8px; }
+.doc h2 { font-size: 24px; margin-top: 44px; scroll-margin-top: 16px; }
+.doc table { width: 100%; border-collapse: collapse; margin: 12px 0 16px; font-size: 16px; }
+.doc :not(pre) > code { overflow-wrap: anywhere; }
+.doc th, .doc td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--line); }
+.doc th { font-size: 14px; color: var(--muted); font-weight: 600; }
+.doc .cards h3 a { text-decoration: none; }
+.faq dt { font-weight: 700; margin-top: 22px; scroll-margin-top: 16px; }
+.faq dd { margin: 6px 0 0; padding-left: 16px; border-left: 3px solid var(--line); }
+.faq dd p { margin: 0 0 8px; }
+.faq dd ul { margin: 0 0 8px; padding-left: 20px; }
+.edit { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line); }
+.button.disabled { opacity: .55; cursor: not-allowed; }
+.button.disabled:hover { background: var(--fg); border-color: var(--fg); }
+
+@media (max-width: 820px) {
+  .docs { grid-template-columns: 1fr; gap: 8px; }
+  .docs-nav ul { position: static; display: flex; flex-wrap: wrap; gap: 6px; }
+  .docs-nav li { margin: 0; }
+  .docs-nav a { padding: 4px 10px; border: 1px solid var(--line); font-size: 15px; }
+}

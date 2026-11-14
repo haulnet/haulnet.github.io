@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{title}} · Haulnet docs</title>
+<meta name="description" content="{{description}}">
+<link rel="canonical" href="{{canonical}}">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:url" content="{{canonical}}">
+<meta property="og:title" content="{{title}} · Haulnet docs">
+<meta property="og:description" content="{{description}}">
+<meta property="og:image" content="https://haulnet.cc/assets/social-preview.png">
+<meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="top wrap">
+  <a class="brand" href="/" aria-label="Haulnet home">
+    <picture>
+      <source srcset="/assets/haulnet-logo-on-dark.svg" media="(prefers-color-scheme: dark)">
+      <img src="/assets/haulnet-logo-on-light.svg" alt="haulnet" width="153" height="44">
+    </picture>
+  </a>
+  <nav aria-label="Main">
+    <a href="/docs/" aria-current="page">Docs</a>
+    <a href="https://servers.haulnet.cc/">Servers</a>
+    <a href="/docs/server/">Run a server</a>
+    <a href="https://github.com/haulnet">GitHub</a>
+  </nav>
+</header>
+
+<div class="wrap docs">
+  <nav class="docs-nav" aria-label="Documentation">
+    <ul>
+{{docs_nav}}
+    </ul>
+  </nav>
+  <main class="doc">
+{{content}}
+    <p class="small edit">Something wrong or missing on this page?
+      <a href="https://github.com/haulnet/haulnet.github.io/issues/new">Open an issue</a> or a pull request to
+      <a href="https://github.com/haulnet/haulnet.github.io">haulnet.github.io</a>.</p>
+  </main>
+</div>
+
+<footer class="wrap">
+  <p>Security reports: <a href="mailto:security@haulnet.cc">security@haulnet.cc</a> ·
+    Other questions: <a href="mailto:contact@haulnet.cc">contact@haulnet.cc</a></p>
+  <p>This site sets no cookies, has no analytics and loads nothing from other sites. Hosted on GitHub Pages, so
+    GitHub's <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">privacy statement</a>
+    covers its server logs. Updated {{built_at}}.</p>
+  <p class="small">Haulnet is an independent fan project. It is not affiliated with or endorsed by semiwork
+    (developers of R.E.P.O.) or Exit Games GmbH. "R.E.P.O." and "Photon" are trademarks of their respective
+    owners and are used only to describe compatibility.</p>
+</footer>
+</body>
+</html>

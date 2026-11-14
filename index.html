@@ -28,9 +28,9 @@
     </picture>
   </a>
   <nav aria-label="Main">
-    <a href="#how">How it works</a>
+    <a href="/docs/">Docs</a>
     <a href="https://servers.haulnet.cc/">Servers</a>
-    <a href="#server">Run a server</a>
+    <a href="/docs/server/">Run a server</a>
     <a href="https://github.com/haulnet">GitHub</a>
   </nav>
 </header>
@@ -45,7 +45,7 @@
         Haulnet, the game plays exactly as without the mod.</p>
       <p class="actions">
         <a class="button" href="#start">Get started</a>
-        <a class="button ghost" href="https://github.com/haulnet">Source on GitHub</a>
+        <a class="button ghost" href="/docs/">Documentation</a>
       </p>
       <p class="badges">
         {{mod_badge}}
@@ -135,7 +135,8 @@
           {{players_steps}}
         </ol>
         <p class="small">Everyone in a Haulnet game needs Haulnet and the same game version. Haulnet is for people
-          who own R.E.P.O. on Steam.</p>
+          who own R.E.P.O. on Steam. More: <a href="/docs/install/">Install</a> ·
+          <a href="/docs/play/">Play</a> · <a href="/docs/troubleshooting/">Troubleshooting</a>.</p>
       </article>
       <article id="server">
         <h3>Server operators</h3>
@@ -148,7 +149,7 @@ curl -fsSL -o haulnet-server.env "$base/haulnet-server.env.example"
 nano haulnet-server.env   # set EXTERNAL_ADDRESS
 docker compose up -d</code></pre>
         <p class="small">Open UDP 27000–27002 and TCP 27080. Systemd and Windows: see the
-          <a href="https://github.com/haulnet/haulnet-server#readme">README</a>. To list it publicly, open a pull
+          <a href="/docs/server/">server docs</a>. To list it publicly, open a pull
           request to <a href="https://github.com/haulnet/haulnet-servers">haulnet-servers</a>; CI checks every entry.</p>
       </article>
     </div>

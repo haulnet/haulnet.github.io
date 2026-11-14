@@ -30,8 +30,14 @@ SERVER_REPO = "haulnet/haulnet-server"
 SERVER_LIST = "https://servers.haulnet.cc/v1/servers.json"
 TEMPLATES = ("index.html",)
 # Files and folders of the repository that are not part of the published site.
-EXCLUDE = {".git", ".github", ".gitattributes", ".gitignore", "tools", "README.md", "_site", "CNAME"}
+EXCLUDE = {".git", ".github", ".gitattributes", ".gitignore", "tools", "README.md", "_site", "CNAME", "_pages",
+           "_layout.html"}
 PLACEHOLDER = re.compile(r"\{\{\s*([a-z_]+)\s*\}\}")
+FRONT_MATTER = re.compile(r"\A(?:\s*<!--\s*([a-z]+):\s*(.*?)\s*-->\n)+")
+FRONT_LINE = re.compile(r"<!--\s*([a-z]+):\s*(.*?)\s*-->")
+# Documentation pages: _pages/docs/<name>.html → /docs/<name>/ (index.html → /docs/), in this navigation order.
+DOCS_NAV = (("index", "Overview"), ("install", "Install"), ("play", "Play"), ("server", "Run a server"),
+            ("troubleshooting", "Troubleshooting"))
 
 
 def get_json(url: str):
@@ -107,7 +113,18 @@ def values(facts: dict, now: datetime) -> dict[str, str]:
     else:
         server_badge = '<span class="badge"><span>server</span>not released</span>'
     luxon = ", ".join(listing["luxon"]) or "—"
+    if mod:
+        release_note = (f'The latest release is <a href="{e(mod["url"])}">Haulnet v{e(mod["version"])}</a> '
+                        f'({e(mod["date"])}).')
+        manual_download = (f'<a class="button" href="https://github.com/{MOD_REPO}/releases/latest/download/Haulnet.zip">'
+                           f'Download Haulnet v{e(mod["version"])}</a>')
+    else:
+        release_note = ("Haulnet has <b>no release yet</b>: the first one is being tested. Until then it is built "
+                        "from source (below); this page switches to the release by itself when it is out.")
+        manual_download = '<span class="button disabled" aria-disabled="true">No release yet</span>'
     return {
+        "release_note": release_note,
+        "manual_download": manual_download,
         "status_line": status,
         "mod_badge": mod_badge,
         "server_badge": server_badge,
@@ -125,6 +142,43 @@ def render(template: str, fields: dict[str, str]) -> str:
     return PLACEHOLDER.sub(lambda m: fields[m.group(1)], template)
 
 
+def split_front_matter(text: str) -> tuple[dict[str, str], str]:
+    match = FRONT_MATTER.match(text)
+    if not match:
+        return {}, text
+    return dict(FRONT_LINE.findall(match.group(0))), text[match.end():]
+
+
+def docs_nav(current: str) -> str:
+    items = []
+    for name, label in DOCS_NAV:
+        href = "/docs/" if name == "index" else f"/docs/{name}/"
+        attr = ' aria-current="page"' if name == current else ""
+        items.append(f'<li><a href="{href}"{attr}>{html.escape(label)}</a></li>')
+    return "\n".join(items)
+
+
+def build_pages(out: Path, fields: dict[str, str]) -> None:
+    layout = (ROOT / "_layout.html").read_text(encoding="utf-8")
+    names = {name for name, _ in DOCS_NAV}
+    for source in sorted((ROOT / "_pages" / "docs").glob("*.html")):
+        name = source.stem
+        if name not in names:
+            raise KeyError(f"_pages/docs/{source.name} is not in DOCS_NAV")
+        meta, body = split_front_matter(source.read_text(encoding="utf-8"))
+        if not meta.get("title") or not meta.get("description"):
+            raise KeyError(f"_pages/docs/{source.name}: title and description are required")
+        path = "docs/" if name == "index" else f"docs/{name}/"
+        page = dict(fields, title=html.escape(meta["title"]), description=html.escape(meta["description"]),
+                    canonical=f"https://haulnet.cc/{path}", docs_nav=docs_nav(name), content=render(body, fields))
+        target = out / path / "index.html"
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(render(layout, page), encoding="utf-8", newline="\n")
+    missing = names - {p.stem for p in (ROOT / "_pages" / "docs").glob("*.html")}
+    if missing:
+        raise KeyError(f"missing docs page(s): {', '.join(sorted(missing))}")
+
+
 def build(out: Path, offline: bool = False, now: datetime | None = None) -> None:
     fields = values(gather(offline), now or datetime.now(timezone.utc))
     if out.exists():
@@ -140,6 +194,7 @@ def build(out: Path, offline: bool = False, now: datetime | None = None) -> None
             target.write_text(render(item.read_text(encoding="utf-8"), fields), encoding="utf-8", newline="\n")
         else:
             shutil.copy2(item, target)
+    build_pages(out, fields)
     (out / ".nojekyll").write_text("", encoding="utf-8")
 
 
