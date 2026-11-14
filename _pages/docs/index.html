@@ -1,0 +1,60 @@
+<!-- title: Documentation -->
+<!-- description: How Haulnet works, how to install it, play on your PC or a server, run your own server and fix common problems. -->
+<h1>Haulnet documentation</h1>
+<p class="lead">Haulnet is a free, open-source BepInEx mod for R.E.P.O. It lets a game live on your own PC, on a
+  community server or on any server by address, instead of Photon Cloud.</p>
+
+<div class="cards">
+  <article><h3><a href="/docs/install/">Install</a></h3><p>Mod manager, manual install or a build from source;
+    updating and removing.</p></article>
+  <article><h3><a href="/docs/play/">Play</a></h3><p>The three ways to play, how friends join, ports, VPNs and the
+    config file.</p></article>
+  <article><h3><a href="/docs/server/">Run a server</a></h3><p>The haulnet-server package: Docker, systemd or
+    Windows, updates, and the public server list.</p></article>
+  <article><h3><a href="/docs/troubleshooting/">Troubleshooting</a></h3><p>Every message Haulnet shows, what it
+    means and what to do.</p></article>
+</div>
+
+<h2 id="how">How it works</h2>
+<p>R.E.P.O. uses Photon for multiplayer: every player connects to a Photon server, which relays the game between
+  them. That server normally lives in Photon Cloud, even when both players sit in the same room. Haulnet points the
+  game at a different, Photon-compatible server instead:
+  <a href="https://github.com/niansa/LuxonServer">LuxonServer</a>, an open-source implementation.</p>
+<ul>
+  <li><b>On my PC:</b> LuxonServer runs inside the host's game for as long as the lobby is open, like
+    “Open to LAN”.</li>
+  <li><b>Community servers:</b> people run the <a href="/docs/server/">haulnet-server</a> package on a VPS; the
+    public list at <a href="https://servers.haulnet.cc/">servers.haulnet.cc</a> shows them by city.</li>
+  <li><b>Server by address:</b> any server you or a friend runs, listed or not.</li>
+</ul>
+<p>The Steam invite carries where the game lives, so friends follow it as usual. Until you pick a Haulnet row on the
+  region page, the game plays exactly as without the mod.</p>
+
+<h2 id="status">Project status</h2>
+<p>{{release_note}} Changes are announced in the
+  <a href="https://github.com/haulnet/haulnet-repo">repository</a>; the live state of community servers is on
+  <a href="https://servers.haulnet.cc/">servers.haulnet.cc</a>.</p>
+
+<h2 id="privacy">Privacy and safety</h2>
+<ul>
+  <li>Haulnet sends no telemetry. It downloads the public server list, pings the listed servers and asks them for
+    their status (counts and versions only).</li>
+  <li>Whoever runs the server of a game sees the players' IP addresses, as Photon does in Photon Cloud. On your PC
+    that is you; on a community server it is its operator, shown in the list.</li>
+  <li>The host's addresses travel to invited friends in the Steam lobby data, so they can connect.</li>
+  <li>Haulnet needs no administrator rights and changes no system settings or the <code>hosts</code> file.</li>
+</ul>
+
+<h2 id="faq">FAQ</h2>
+<dl class="faq">
+  <dt>Do my friends need Haulnet?</dt>
+  <dd>Yes, everyone in a Haulnet game needs Haulnet and the same game version. Photon Cloud games still work with
+    friends who do not have it.</dd>
+  <dt>Does it work with other mods?</dt>
+  <dd>Haulnet only changes where the game connects and adds rows to the region page. Mods that change the same
+    menus or the connection may conflict; report it with both mods named.</dd>
+  <dt>Is it official?</dt>
+  <dd>No. Haulnet is an independent fan project, not affiliated with or endorsed by semiwork or Exit Games.</dd>
+  <dt>Does it work with a pirated copy?</dt>
+  <dd>No, and it never will: Haulnet is for people who own R.E.P.O. on Steam.</dd>
+</dl>

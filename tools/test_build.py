@@ -95,5 +95,35 @@ class BuildTests(unittest.TestCase):
             self.assertNotIn("{{", (out / "index.html").read_text(encoding="utf-8"))
 
 
+class PagesTests(unittest.TestCase):
+    def test_front_matter(self):
+        meta, body = build.split_front_matter("<!-- title: A -->\n<!-- description: B c -->\n<h1>x</h1>\n")
+        self.assertEqual(meta, {"title": "A", "description": "B c"})
+        self.assertEqual(body, "<h1>x</h1>\n")
+
+    def test_docs_pages_and_internal_links(self):
+        import re as _re
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "site"
+            build.build(out, offline=True, now=NOW)
+            pages = {}
+            for name, label in build.DOCS_NAV:
+                path = "docs/" if name == "index" else f"docs/{name}/"
+                text = (out / path / "index.html").read_text(encoding="utf-8")
+                self.assertNotIn("{{", text, path)
+                self.assertIn(f'aria-current="page">{label}<', text, path)
+                pages["/" + path] = text
+            pages["/"] = (out / "index.html").read_text(encoding="utf-8")
+            for source, text in pages.items():
+                for href in _re.findall(r'href="(/[^"]*)"', text):
+                    path, _, anchor = href.partition("#")
+                    target = out / path.lstrip("/")
+                    if path.endswith("/") or path == "":
+                        target = target / "index.html"
+                    self.assertTrue(target.exists(), f"{source}: broken link {href}")
+                    if anchor and path in pages:
+                        self.assertIn(f'id="{anchor}"', pages[path], f"{source}: missing anchor {href}")
+
+
 if __name__ == "__main__":
     unittest.main()
