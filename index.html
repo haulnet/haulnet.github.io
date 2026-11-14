@@ -74,7 +74,8 @@
     </svg>
   </section>
 
-  <section class="wrap live" id="live" data-status-url="https://monitor.haulnet.cc/v1/status.json" data-cities="{{cities_json}}">
+  <section class="wrap live" id="live" data-list-url="{{list_url}}" data-status-url="https://monitor.haulnet.cc/v1/status.json"
+    data-cities="{{cities_json}}">
     <div class="stats">
       <div><b data-stat="servers">—</b><span>servers online</span></div>
       <div><b data-stat="cities">—</b><span>cities</span></div>
@@ -170,7 +171,8 @@ docker compose up -d</code></pre>
   <p>Security reports: <a href="mailto:security@haulnet.cc">security@haulnet.cc</a> ·
     Other questions: <a href="mailto:contact@haulnet.cc">contact@haulnet.cc</a></p>
   <p>This site sets no cookies and has no analytics. It loads nothing from other sites; its only script reads the
-    live numbers from our own server monitor (<code>monitor.haulnet.cc</code>), which keeps no access log. Hosted
+    server list (<code>servers.haulnet.cc</code>, also on GitHub Pages) and the live numbers from our own server
+    monitor (<code>monitor.haulnet.cc</code>), which keeps no access log. Hosted
     on GitHub Pages, so GitHub's <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">privacy statement</a>
     covers its server logs. Versions updated {{built_at}}.</p>
   <p class="small">Haulnet is an independent fan project. It is not affiliated with or endorsed by semiwork

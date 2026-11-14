@@ -130,6 +130,7 @@ def values(facts: dict, now: datetime) -> dict[str, str]:
         "server_badge": server_badge,
         "luxon_badge": f'<span class="badge"><span>LuxonServer</span>{e(luxon)}</span>',
         "players_steps": players_steps,
+        "list_url": e(SERVER_LIST),
         "cities_json": e(json.dumps(listing["cities"], separators=(",", ":"), sort_keys=True)),
         "built_at": e(now.strftime("%Y-%m-%d %H:%M UTC")),
     }

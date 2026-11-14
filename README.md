@@ -7,7 +7,8 @@ in the latest releases of the mod and of `haulnet-server` from the GitHub API an
 `servers.haulnet.cc`. [`.github/workflows/pages.yml`](.github/workflows/pages.yml) builds and deploys on every push to
 `main`, every hour and by hand. Documentation pages are fragments in [`_pages/docs/`](_pages/docs/) wrapped in [`_layout.html`](_layout.html) and
 published as `/docs/<page>/`. One script, [`live.js`](live.js), shows live numbers from our own server monitor
-`monitor.haulnet.cc`; the page is complete without it. No cookies, no analytics, nothing from other sites. Logo,
+`monitor.haulnet.cc` and reads the server list itself, so a new server or city appears without a rebuild (the
+build's copy is only the fallback); the page is complete without it. No cookies, no analytics, nothing from other sites. Logo,
 icons and artwork follow the Haulnet brand (original SVG, no game art).
 
 Preview locally:
