@@ -1,0 +1,59 @@
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # Hourly, away from the full hour (GitHub delays scheduled runs at the start of the hour).
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.event_name == 'pull_request' && github.ref || 'deploy' }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Tests
+        run: python -m unittest discover -s tools -v
+
+      # Fails when GitHub or the server list cannot be read, so the last deployed site stays online.
+      - name: Build
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python tools/build.py --out _site
+
+      - uses: actions/upload-pages-artifact@v5
+        if: github.event_name != 'pull_request'
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'haulnet/haulnet.github.io'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
