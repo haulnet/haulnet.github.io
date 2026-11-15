@@ -44,12 +44,13 @@
 <dl class="faq">
 <!-- msg: NO_ANSWER id=no-answer body=NO_ANSWER.BODY,UNREACHABLE.BODY,UNREACHABLE.BODY_UNNAMED -->
   <p><b>On a server</b> (the first text): the server is down, or UDP to it is blocked on the way: by the server's
-    firewall (it must allow UDP 27000–27002), by your network or by a VPN. Try another server; if you run it, check
+    firewall (it must allow UDP 27000–27002), by your network or by a program on your PC that reroutes traffic. Try
+    another server; if you run it, check
     that it is running and the UDP ports are open.</p>
   <p id="unreachable"><b>Joining a friend's PC</b> (the other texts): none of the host's addresses answered. The list
     contains every network address of the host's PC, followed by the port; unfamiliar ones (starting with
     <code>fd</code> or <code>2001:0:</code>) are normal. The host sees the same problem as
-    <a href="#friend-failed">FRIEND NOT CONNECTED</a>, and the fixes are on the host's side. If you share a VPN,
+    <a href="#friend-failed">FRIEND NOT CONNECTED</a>, and the fixes are on the host's side. If you play over Radmin VPN,
     make sure both of you are connected to it.</p>
 <!-- /msg -->
 <!-- msg: LOST id=lost body=LOST.BODY,LOST.BODY_HOST_PC,LOST.BODY_HOST_PC_UNNAMED -->
@@ -91,7 +92,7 @@
 <!-- /msg -->
 <!-- msg: FRIEND_FAILED id=friend-failed body=FRIEND_UNREACHABLE.BODY,FRIEND_UNREACHABLE.BODY_UNNAMED -->
   <p>Your friend cannot reach your PC. Check, in this order: Windows Firewall allows <code>luxon_server</code> and
-    R.E.P.O. (<a href="/docs/install/#windows-firewall">how</a>); you are both connected to the same VPN or network;
+    R.E.P.O. (<a href="/docs/install/#windows-firewall">how</a>); you are both in the same Radmin VPN network or home network;
     or your router forwards those UDP ports to your PC. If none of that is possible, create the game on a Haulnet
     server instead: <a href="/docs/play/#network">Reaching the host's PC</a>.</p>
 <!-- /msg -->
