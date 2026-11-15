@@ -4,8 +4,8 @@
 Usage:
   python tools/build.py --out _site [--offline]
 
-Facts: latest releases of the mod (haulnet/haulnet-repo) and of haulnet-server from the GitHub API, supported
-LuxonServer versions and the city of every listed server from servers.haulnet.cc. "No release yet" is a normal
+Facts: latest releases of the mod (haulnet/haulnet-repo) and of haulnet-server from the GitHub API and the city
+of every listed server from servers.haulnet.cc. "No release yet" is a normal
 state; any other failure stops the build so the last deployed site stays online. `--offline` uses placeholders
 instead of network requests (local preview only). Set GITHUB_TOKEN to raise the API rate limit.
 """
@@ -74,7 +74,6 @@ def server_list() -> dict:
         raise ValueError("server list: unexpected schema version")
     names = {c["id"]: c["name"] for c in data.get("cities", [])}
     return {
-        "luxon": [v for v in (data.get("compatibility") or {}).get("luxon", []) if isinstance(v, str)],
         "cities": {s["id"]: names.get(s["city"], s["city"]) for s in data.get("servers", [])},
     }
 
@@ -82,7 +81,7 @@ def server_list() -> dict:
 def gather(offline: bool) -> dict:
     if offline:
         return {"mod": None, "server": {"version": "0.0.0", "date": "", "url": "#", "downloads": 0},
-                "list": {"luxon": ["v0.0"], "cities": {}}}
+                "list": {"cities": {}}}
     return {"mod": latest_release(MOD_REPO), "server": latest_release(SERVER_REPO), "list": server_list()}
 
 
@@ -112,7 +111,6 @@ def values(facts: dict, now: datetime) -> dict[str, str]:
         server_badge = f'<a class="badge" href="{e(server["url"])}"><span>server</span>v{e(server["version"])}</a>'
     else:
         server_badge = '<span class="badge"><span>server</span>not released</span>'
-    luxon = ", ".join(listing["luxon"]) or "—"
     if mod:
         release_note = (f'The latest release is <a href="{e(mod["url"])}">Haulnet v{e(mod["version"])}</a> '
                         f'({e(mod["date"])}).')
@@ -128,7 +126,6 @@ def values(facts: dict, now: datetime) -> dict[str, str]:
         "status_line": status,
         "mod_badge": mod_badge,
         "server_badge": server_badge,
-        "luxon_badge": f'<span class="badge"><span>LuxonServer</span>{e(luxon)}</span>',
         "players_steps": players_steps,
         "list_url": e(SERVER_LIST),
         "cities_json": e(json.dumps(listing["cities"], separators=(",", ":"), sort_keys=True)),

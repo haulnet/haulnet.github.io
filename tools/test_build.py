@@ -14,7 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build  # noqa: E402
 
 NOW = datetime(2026, 11, 14, 12, 0, tzinfo=timezone.utc)
-LIST = {"luxon": ["v1.5"], "cities": {"europe-moscow-1": "Moscow"}}
+LIST = {"cities": {"europe-moscow-1": "Moscow"}}
 SERVER = {"version": "0.1.1", "date": "2026-11-14", "url": "https://github.com/haulnet/haulnet-server/releases/tag/v0.1.1",
           "downloads": 3}
 
@@ -39,9 +39,8 @@ class ValuesTests(unittest.TestCase):
         self.assertIn("BepInEx/plugins", v["players_steps"])
 
     def test_values_are_escaped(self):
-        listing = {"luxon": ["<b>"], "cities": {"x": "<script>"}}
+        listing = {"cities": {"x": "<script>"}}
         v = build.values({"mod": None, "server": None, "list": listing}, NOW)
-        self.assertNotIn("<b>", v["luxon_badge"])
         self.assertNotIn("<script>", v["cities_json"])
 
 
