@@ -9,7 +9,8 @@ in the latest releases of the mod and of `haulnet-server` from the GitHub API an
 published as `/docs/<page>/`; every page shares the header and footer from [`_partials/`](_partials/). The
 troubleshooting page quotes the mod's own message texts: the build reads `en.tsv` (and the `ru`, `uk` titles) of the
 latest mod release, or of `main` while there is none, and fails when a message the game shows has no explanation on the
-page. The build also writes `robots.txt` and `sitemap.xml`. One script, [`live.js`](live.js), shows live numbers from our own server monitor
+page. The build also writes `robots.txt` and `sitemap.xml`. Styles: [`base.css`](base.css) holds the look shared with servers.haulnet.cc
+(haulnet-servers keeps an identical copy in `pages/base.css`); [`style.css`](style.css) holds the rules of this site only. One script, [`live.js`](live.js), shows live numbers from our own server monitor
 `monitor.haulnet.cc` and reads the server list itself, so a new server or city appears without a rebuild (the
 build's copy is only the fallback); the page is complete without it. No cookies, no analytics, nothing from other sites. Logo,
 icons and artwork follow the Haulnet brand (original SVG, no game art).
