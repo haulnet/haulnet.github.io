@@ -6,6 +6,24 @@
   ready config for R.E.P.O. and a small status endpoint. Keep it private and share the address, or add it to the
   public list.</p>
 
+<h2 id="private-or-public">Private or public?</h2>
+<p>The same package serves two very different purposes. Decide first which one you want.</p>
+<div class="cards two">
+  <article class="card">
+    <h3>For you and your friends</h3>
+    <p>A server at home, at a LAN party or on a VPS that only your group uses. Share its address; friends pick it with
+      <i>+ Server by address</i>. It is yours: turn it off whenever you like, nobody else depends on it. No listing and
+      no rules. (To host a single game on your own PC you need no server at all: use <i>On my PC</i>.)</p>
+  </article>
+  <article class="card">
+    <h3>For everyone: the public list</h3>
+    <p>A listed server appears in every player's game as part of a city row, and Haulnet sends other people's games
+      to it. That is a commitment: it must stay <b>online around the clock</b> on a stable public address, stay
+      updated, and its operator answers reports. The Haulnet monitor checks it every minute, opens an issue after an
+      hour offline, ranks it lower in its city after outages, and a server unreachable for a week may be removed.</p>
+  </article>
+</div>
+
 <h2 id="requirements">Requirements</h2>
 <ul>
   <li>Linux x86-64 (Docker or plain systemd) or Windows x64.</li>
@@ -112,6 +130,16 @@ sudo ./haulnet-update disable</code></pre>
   player IP addresses, Steam IDs and room names. Keep logs only as long as you need them and do not publish them.</p>
 
 <h2 id="list">Add it to the public list</h2>
+<p>Only for a server that is meant to be public (<a href="#private-or-public">see above</a>). Before you apply, make
+  sure you have:</p>
+<ul>
+  <li>a machine that runs around the clock: a VPS or a dedicated server, not a home PC that sleeps or a connection
+    that drops at night;</li>
+  <li>a stable public IPv4 address or DNS name, and bandwidth for the games you allow (<code>MAX_ROOMS</code>,
+    <code>MAX_PLAYERS</code>);</li>
+  <li>automatic updates on (<code>sudo ./haulnet-update enable</code>) or a habit of updating soon after each release;</li>
+  <li>a GitHub account whose notifications you read: problems with your server arrive there as issues.</li>
+</ul>
 <ol>
   <li>Bring the server up and check <code>/status</code> from another machine.</li>
   <li>Fork <a href="https://github.com/haulnet/haulnet-servers">haulnet-servers</a> and add one file
@@ -125,6 +153,7 @@ sudo ./haulnet-update disable</code></pre>
 </ol>
 <p>Rules for operators, in short (full text in the
   <a href="https://github.com/haulnet/haulnet-servers#rules-for-operators">list's README</a>): run the official package
-  and keep it updated; keep the server reachable (a server unreachable for a week may be removed); answer reports
+  and keep it updated; keep it online around the clock on a stable address (a server unreachable for a week may be
+  removed); answer reports
   through the GitHub account in your entry; never inspect or sell players' traffic; no ads, payments or accounts for
   players. Everything in an entry is public.</p>
