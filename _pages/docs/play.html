@@ -51,21 +51,21 @@
 <p>“On my PC” needs a network path from your friends to your PC. Haulnet does not guess or set one up; anything that
   connects the two PCs works:</p>
 <table>
-  <thead><tr><th>Situation</th><th>What to do</th><th>Tested with two PCs</th></tr></thead>
+  <thead><tr><th>Situation</th><th>What to do</th></tr></thead>
   <tbody>
     <tr><td>Friends far away: <a href="https://www.radmin-vpn.com/">Radmin VPN</a> (free, Windows)</td><td>Everyone installs Radmin VPN and joins the same
       Radmin network first; the invite then contains your Radmin address. Radmin links the PCs directly when it can and
-      shows <i>Relay/TCP</i> when it cannot (then the connection is slower).</td><td>yes</td></tr>
+      shows <i>Relay/TCP</i> when it cannot (then the connection is slower).</td></tr>
     <tr><td>Friends far away: <a href="https://www.wireguard.com/">WireGuard</a></td><td>Put your PC and your friends' PCs
       into one WireGuard network first; at least one of them needs an address the others can reach (a VPS or a
-      forwarded port). The invite then contains your WireGuard address.</td><td>not yet</td></tr>
+      forwarded port). The invite then contains your WireGuard address.</td></tr>
     <tr><td>Same home or LAN party</td><td>Allow the Windows Firewall prompt; friends use your local address from the
-      invite.</td><td>not yet</td></tr>
-    <tr><td>Both sides have IPv6</td><td>Your router must let incoming UDP through to your PC.</td><td>not yet</td></tr>
+      invite.</td></tr>
+    <tr><td>Both sides have IPv6</td><td>Your router must let incoming UDP through to your PC.</td></tr>
     <tr><td>Router with a public IPv4 address</td><td>Forward UDP 27000–27002 (or your port and the next two) to your
-      PC.</td><td>not yet</td></tr>
+      PC.</td></tr>
     <tr><td>None of these (most home connections)</td><td>Create the game on a <b>Haulnet server</b> instead: nobody
-      needs to reach your PC.</td><td>yes</td></tr>
+      needs to reach your PC.</td></tr>
   </tbody>
 </table>
 <p>Ports: the server on your PC uses the port you enter and the next two (<b>UDP 27000–27002</b> by default). A short

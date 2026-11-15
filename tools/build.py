@@ -146,19 +146,20 @@ def values(facts: dict, now: datetime) -> dict[str, str]:
         manual_download = (f'<a class="button" href="https://github.com/{MOD_REPO}/releases/latest/download/Haulnet.zip">'
                            f'Download Haulnet v{e(mod["version"])}</a>')
     else:
-        status = "Pre-release · the mod has no release yet"
-        mod_badge = '<span class="badge"><span>mod</span>not released</span>'
+        status = "Free and open source"
+        mod_badge = '<span class="badge"><span>mod</span>from source</span>'
         players_steps = (
-            f'<li>Haulnet has no release yet. On <a href="{releases}">GitHub</a>, choose <i>Watch → Custom → '
-            "Releases</i> to be told when the first one is out.</li>"
+            f'<li>Packaged downloads are published on <a href="{releases}">GitHub</a> (<i>Watch → Custom → '
+            'Releases</i> tells you when); until the first one, build Haulnet <a href="/docs/install/#source">from '
+            "source</a>.</li>"
             "<li>Install it with <b>BepInExPack</b> (BepInEx 5), its only dependency: "
             '<a href="/docs/install/">Install</a>.</li>'
             "<li>In the game: <b>Private game</b> or <b>Public game</b> → the <b>HAULNET</b> tab.</li>")
-        release_note = ("Haulnet has <b>no release yet</b>: the first one is being tested. Until then testers build "
-                        'it <a href="#source">from source</a>; this page switches to the release by itself when it is '
-                        "out.")
-        release_note_short = "Haulnet has <b>no release yet</b>: the first one is being tested."
-        manual_download = '<span class="button disabled" aria-disabled="true">No release yet</span>'
+        release_note = ('Until the first packaged download is published, Haulnet is built <a href="#source">from '
+                        "source</a>; this page shows the download by itself as soon as it is out.")
+        release_note_short = ("Releases are published on GitHub; until the first one, Haulnet is built from source "
+                              '(<a href="/docs/install/">Install</a>).')
+        manual_download = '<span class="button disabled" aria-disabled="true">Download not published yet</span>'
     if server:
         status += f' · server <a href="{e(server["url"])}">v{e(server["version"])}</a>'
         server_badge = f'<a class="badge" href="{e(server["url"])}"><span>server</span>v{e(server["version"])}</a>'
@@ -169,7 +170,7 @@ def values(facts: dict, now: datetime) -> dict[str, str]:
     if text:
         ref = text["ref"]
         source = (f'<a href="https://github.com/{MOD_REPO}/blob/{e(ref)}/mod/Haulnet/Localization/en.tsv">'
-                  + (f"Haulnet {e(ref)}" if ref != "main" else "the development version, no release yet") + "</a>")
+                  + (f"Haulnet {e(ref)}" if ref != "main" else "the current source on main") + "</a>")
     else:
         source = "offline preview: keys instead of texts"
     return {
