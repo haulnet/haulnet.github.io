@@ -22,12 +22,12 @@ SERVER = {"version": "0.1.1", "date": "2026-11-14", "url": "https://github.com/h
 class ValuesTests(unittest.TestCase):
     def test_no_mod_release(self):
         v = build.values({"mod": None, "server": SERVER, "list": LIST}, NOW)
-        self.assertIn("no release yet", v["status_line"])
+        self.assertIn("Free and open source", v["status_line"])
         self.assertIn("server <a", v["status_line"])
-        self.assertIn("not released", v["mod_badge"])
+        self.assertIn("from source", v["mod_badge"])
         self.assertIn("Watch", v["players_steps"])
         self.assertIn("#source", v["release_note"])
-        self.assertNotIn("source", v["release_note_short"])
+        self.assertIn("/docs/install/", v["release_note_short"])
         self.assertEqual(v["built_at"], "2026-11-14 12:00 UTC")
         self.assertIn("&quot;europe-moscow-1&quot;:&quot;Moscow&quot;", v["cities_json"])
 
