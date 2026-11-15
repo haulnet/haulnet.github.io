@@ -4,16 +4,32 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Not found · Haulnet</title>
+<meta name="robots" content="noindex">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta name="color-scheme" content="light dark">
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<main class="wrap hero">
-  <h1>Page not found</h1>
-  <p class="lead">Looking for the server list? It lives at <a href="https://servers.haulnet.cc/">servers.haulnet.cc</a>.</p>
-  <p class="actions"><a class="button" href="/">Haulnet home</a></p>
+{{header}}
+<main class="wrap notfound">
+  <svg class="hero-art art" viewBox="0 0 480 200" aria-hidden="true">
+    <g class="route">
+      <path d="M40 120h120"/>
+      <path class="dotted" d="M200 120h80"/>
+      <path class="faint" d="M320 120h120"/>
+    </g>
+    <circle class="node" cx="40" cy="120" r="15"/>
+    <circle class="ping" cx="440" cy="120" r="15"/>
+    <circle class="node" cx="440" cy="120" r="15" opacity=".25"/>
+    <g class="crate" transform="translate(180 120)"><rect x="-14" y="-14" width="28" height="28" rx="5.5"/></g>
+  </svg>
+  <p class="eyebrow">404</p>
+  <h1>This route leads nowhere</h1>
+  <p class="lead">The page you asked for is not here. Looking for the server list? It lives at
+    <a href="https://servers.haulnet.cc/">servers.haulnet.cc</a>.</p>
+  <p class="actions"><a class="button" href="/">Haulnet home</a> <a class="button ghost" href="/docs/">Documentation</a></p>
 </main>
+{{footer}}
 </body>
 </html>
