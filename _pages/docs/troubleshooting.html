@@ -1,78 +1,120 @@
 <!-- title: Troubleshooting -->
 <!-- description: Every message Haulnet shows in R.E.P.O., what it means and what to do; where the logs are and how to report a problem. -->
 <h1>Troubleshooting</h1>
-<p class="lead">Every message Haulnet shows, by its title. Texts in <i>italics</i> are filled in by the game, such as a
-  server or a port.</p>
+<p class="lead">Every message Haulnet shows, by the title you see in the game, with what it means and what to do.</p>
+<p class="small">The message texts on this page are read from Haulnet's own English text table
+  ({{messages_source}}) when the site is built. Words in <i>italics</i> are filled in by the game, such as a server
+  name or a port.</p>
 
-<h2 id="servers">Servers</h2>
+<h2 id="servers">Choosing a server</h2>
 <dl class="faq">
-  <dt id="no-server">NO SERVER</dt>
-  <dd><p><i>City</i>: no server answers its status check, accepts new games and runs a compatible version.</p>
-    <p>Every server of that city is down, full, updating or runs a LuxonServer version the current game does not
-      work with. Look at <a href="https://servers.haulnet.cc/">servers.haulnet.cc</a> for the live state, pick
-      another city or try later.</p></dd>
-  <dt id="full">SERVER IS FULL</dt>
-  <dd><p><i>Server</i> does not accept new games (its status says <code>accepting: false</code>).</p>
-    <p>It reached the limits its operator set. Pick another server or city; games already running there are not
-      affected.</p></dd>
-  <dt id="updating">SERVER IS UPDATING</dt>
-  <dd><p>The server is updating and starts no new games until it is done.</p>
-    <p>It waits for the running games to end, then restarts with the new version. Try again in a few minutes.</p></dd>
-  <dt id="not-found">SERVER NOT FOUND</dt>
-  <dd><p>The name <i>host</i> does not resolve to an address.</p>
-    <p>Check the spelling. If the name is right, its DNS is broken or the server is gone; ask whoever gave you the
-      address.</p></dd>
-  <dt id="wrong-address">WRONG ADDRESS</dt>
-  <dd><p>“<i>text</i>” is not a server address.</p>
-    <p>Use <code>host</code> or <code>host:port</code>, for example <code>play.example.org</code> or
-      <code>203.0.113.5:27100</code>. An IPv6 address with a port goes in brackets:
-      <code>[2001:db8::1]:27000</code>. Ports are numbers from 1 to 65535.</p></dd>
-  <dt id="no-answer">HAULNET: NO CONNECTION</dt>
-  <dd><p>No answer from <i>server</i> on UDP <i>port</i>.</p>
-    <p>The server is down, or UDP to it is blocked on the way: by the server's firewall (it must allow UDP
-      27000–27002), by your network, or by a VPN. Try another server; if you run it, check that LuxonServer is
-      running and the UDP ports are open.</p></dd>
+<!-- msg: NO_SERVER id=no-server -->
+  <p>None of that city's servers can take a new game right now: each one is down, full, updating, runs a version the
+    current game does not work with, or answers but has no game server running. Look at
+    <a href="https://servers.haulnet.cc/">servers.haulnet.cc</a> for the live state, pick another city or try later.</p>
+  <p>If <b>every</b> city says this while servers.haulnet.cc shows them online, your network probably blocks the
+    servers' status check (TCP port 27080). Try another network, or a server by address.</p>
+<!-- /msg -->
+<!-- msg: FULL id=full -->
+  <p>The server reached the limits its operator set. Pick another server or city; games already running there are
+    not affected.</p>
+<!-- /msg -->
+<!-- msg: UPDATING id=updating -->
+  <p>The server waits for its running games to end, then restarts with the new version. Try again in a few
+    minutes.</p>
+<!-- /msg -->
+<!-- msg: NOT_FOUND id=not-found -->
+  <p>Check the spelling. If the name is right, its DNS is broken or the server is gone; ask whoever gave you the
+    address.</p>
+<!-- /msg -->
+<!-- msg: ADDRESS_INVALID id=wrong-address -->
+  <p>The reason in brackets is one of:</p>
+<!-- msg-list: ADDRESS_ERROR. -->
+  <p>An IPv6 address with a port goes in brackets: <code>[2001:db8::1]:27000</code>. Ports are numbers from 1 to
+    65535; without a port, 27000 is used.</p>
+<!-- /msg -->
+<!-- msg: NOT_RUNNING id=not-running -->
+  <p>The computer at that address is on, but its game server (LuxonServer) is not. A ping on the row only shows that
+    the machine answers. If you run the server, start it and check that UDP 27000–27002 are open; otherwise ask its
+    owner.</p>
+<!-- /msg -->
+</dl>
+
+<h2 id="connection">Connecting and staying connected</h2>
+<dl class="faq">
+<!-- msg: NO_ANSWER id=no-answer body=NO_ANSWER.BODY,UNREACHABLE.BODY,UNREACHABLE.BODY_UNNAMED -->
+  <p><b>On a server</b> (the first text): the server is down, or UDP to it is blocked on the way: by the server's
+    firewall (it must allow UDP 27000–27002), by your network or by a VPN. Try another server; if you run it, check
+    that it is running and the UDP ports are open.</p>
+  <p id="unreachable"><b>Joining a friend's PC</b> (the other texts): none of the host's addresses answered. The list
+    contains every network address of the host's PC, followed by the port; unfamiliar ones (starting with
+    <code>fd</code> or <code>2001:0:</code>) are normal. The host sees the same problem as
+    <a href="#friend-failed">FRIEND NOT CONNECTED</a>, and the fixes are on the host's side. If you share a VPN,
+    make sure both of you are connected to it.</p>
+<!-- /msg -->
+<!-- msg: LOST id=lost body=LOST.BODY,LOST.BODY_HOST_PC,LOST.BODY_HOST_PC_UNNAMED -->
+  <p>The server or the host's game went away during the game. When the server is back (or the host has created
+    the game again), create or join the game again.</p>
+<!-- /msg -->
+<!-- msg: INCOMPATIBLE id=incompatible -->
+  <p>The game was updated and Haulnet switched itself off instead of risking a broken game. Photon Cloud games keep
+    working. Look for a Haulnet update; if invites to Haulnet games stop working after a game update, update
+    Haulnet too.</p>
+<!-- /msg -->
+<!-- msg: WRONG_PASSWORD id=wrong-password -->
+  <p>Ask the host for the password.</p>
+<!-- /msg -->
+<!-- msg: BANNED id=banned -->
+  <p>In R.E.P.O. the host's kick button bans the player from the current game, with or without Haulnet; the first
+    time you see the game's own <i>Kicked</i> message. The ban ends when the host returns to the main menu and
+    creates a new game.</p>
+<!-- /msg -->
 </dl>
 
 <h2 id="hosting">Hosting on your PC</h2>
 <dl class="faq">
-  <dt id="server-error">HAULNET: SERVER ERROR</dt>
-  <dd><p>The server on your PC could not start, with one of these reasons:</p>
-    <ul>
-      <li><b>Server file is missing</b>: <code>server/luxon_server.exe</code> is not next to the plugin. Reinstall
-        Haulnet; an antivirus may also have removed it (then restore it and add an exception).</li>
-      <li><b>UDP port … is already in use by another program</b>: another server or a second game uses it. Close
-        that program or choose another port in the <i>UDP PORT</i> box.</li>
-      <li><b>Could not start the server</b> / <b>The server stopped unexpectedly</b>: Windows or an antivirus blocked
-        <code>luxon_server.exe</code>, or it crashed. The message shows the system's reason and the server's last
-        output; the full log is in <code>BepInEx/LogOutput.log</code>.</li>
-    </ul></dd>
-  <dt id="wrong-port">WRONG PORT</dt>
-  <dd><p>The port must be a number from 1024 to 65533. The game uses it and the next two ports.</p></dd>
-  <dt id="friend-failed">HAULNET: FRIEND NOT CONNECTED</dt>
-  <dd><p><i>Friend</i> got no answer from your PC on UDP <i>first</i>–<i>last</i>.</p>
-    <p>Your friend cannot reach your PC. Check, in this order: Windows Firewall allows <code>luxon_server</code> and
-      R.E.P.O. (<a href="/docs/install/#windows-firewall">how</a>); you are on the same LAN or the same VPN; or your
-      router forwards UDP <i>first</i>–<i>last</i> to your PC. If none of that is possible, create the game on a
-      community server: <a href="/docs/play/#network">Reaching the host's PC</a>.</p></dd>
+<!-- msg: SERVER_FAILED id=server-error -->
+  <p>The reason is one of:</p>
+<!-- msg-list: SERVER_ERROR. -->
+  <ul>
+    <li><b>Server file is missing</b>: <code>BepInEx/plugins/Haulnet/server/luxon_server.exe</code> is not there.
+      Reinstall Haulnet and keep the <code>server</code> folder next to the DLL.</li>
+    <li><b>Port in use</b>: another server or a second game uses it. Close that program or choose another port in
+      the <i>UDP PORT</i> box.</li>
+    <li><b>Could not start</b> / <b>stopped unexpectedly</b>: Windows or security software blocked
+      <code>luxon_server.exe</code>, or it crashed. The message shows the system's reason and the server's last
+      output; the full log is in <code>BepInEx/LogOutput.log</code>.</li>
+  </ul>
+<!-- /msg -->
+<!-- msg: PORT_INVALID id=wrong-port -->
+  <p>Enter a number from 1024 to 65533; the default is 27000.</p>
+<!-- /msg -->
+<!-- msg: FRIEND_FAILED id=friend-failed body=FRIEND_UNREACHABLE.BODY,FRIEND_UNREACHABLE.BODY_UNNAMED -->
+  <p>Your friend cannot reach your PC. Check, in this order: Windows Firewall allows <code>luxon_server</code> and
+    R.E.P.O. (<a href="/docs/install/#windows-firewall">how</a>); you are both connected to the same VPN or network;
+    or your router forwards those UDP ports to your PC. If none of that is possible, create the game on a Haulnet
+    server instead: <a href="/docs/play/#network">Reaching the host's PC</a>.</p>
+<!-- /msg -->
 </dl>
 
-<h2 id="joining">Joining a friend</h2>
-<dl class="faq">
-  <dt id="unreachable">No answer from the host's PC</dt>
-  <dd><p>No answer from <i>host</i>'s PC (<i>addresses</i>).</p>
-    <p>None of the host's addresses answered. The host sees the same problem as
-      <a href="#friend-failed">FRIEND NOT CONNECTED</a>; the fixes are on the host's side. If you share a VPN, make
-      sure both of you are connected to it.</p></dd>
-  <dt id="incompatible">HAULNET IS OFF</dt>
-  <dd><p>Haulnet is not compatible with this game version yet. You are playing through Photon Cloud as usual.</p>
-    <p>The game was updated and Haulnet switched itself off instead of risking a broken game. Wait for a Haulnet
-      update; Photon Cloud games keep working.</p></dd>
-  <dt id="wrong-password">WRONG PASSWORD</dt>
-  <dd><p>The lobby password you entered is not correct. Ask the host for it.</p></dd>
-  <dt id="banned">BANNED</dt>
-  <dd><p>The host has banned you from this game.</p></dd>
-</dl>
+<h2 id="rows">What the right side of a row means</h2>
+<table>
+  <thead><tr><th>Shown</th><th>Meaning</th></tr></thead>
+  <tbody>
+    <tr><td><i>number</i> ms</td><td>Ping to that server or city. It shows that the machine answers, not that the
+      game server on it runs.</td></tr>
+    <tr><td>{{row_full}}</td><td>The server takes no new games right now (limit reached).</td></tr>
+    <tr><td>{{row_updating}}</td><td>The server is waiting to install an update.</td></tr>
+    <tr><td>{{row_checking}}</td><td>Haulnet is still asking the servers.</td></tr>
+    <tr><td>—</td><td>No answer: the name does not resolve, the machine does not answer, or no server of the city can
+      take a game.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="other">The game's own messages</h2>
+<p>If you see the game's own <i>Disconnected</i> message (for example <code>ClientTimeout</code>) instead of a
+  Haulnet message, Haulnet did not recognise the problem. Note what you did and report it with the logs (below).
+  Haulnet does not change Photon Cloud connections.</p>
 
 <h2 id="logs">Logs and reporting a problem</h2>
 <ul>
@@ -81,7 +123,7 @@
     <code>%USERPROFILE%\AppData\LocalLow\semiwork\Repo</code>.</li>
   <li>Report problems on <a href="https://github.com/haulnet/haulnet-repo/issues">GitHub</a> with the game version,
     the Haulnet version, what you did and the message you saw. Logs contain IP addresses: remove them or send the log
-    privately.</li>
+    privately to <a href="mailto:contact@haulnet.cc">contact@haulnet.cc</a>.</li>
   <li>A problem with a listed server goes to the
     <a href="https://github.com/haulnet/haulnet-servers/issues/new/choose">server list</a>.</li>
   <li>Security problems: <a href="mailto:security@haulnet.cc">security@haulnet.cc</a>.</li>

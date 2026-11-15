@@ -1,37 +1,33 @@
 <!-- title: Install -->
-<!-- description: Install Haulnet for R.E.P.O. with a mod manager, by hand or from source; update and remove it. -->
+<!-- description: Install Haulnet for R.E.P.O.: requirements, manual install, mod managers, building from source, Windows Firewall, updating and removing. -->
 <h1>Install</h1>
 <p class="lead">{{release_note}}</p>
-<p>You need R.E.P.O. from Steam. Everyone you play with in a Haulnet game needs Haulnet and the same game version.</p>
 
-<h2 id="mod-manager">With a mod manager</h2>
-<p>From the first release, Haulnet is published on Thunderstore for R.E.P.O. and installs like any other mod in
-  <b>r2modman</b>, <b>Gale</b> or the Thunderstore app: search for <i>Haulnet</i>, install, start the game from the
-  manager. The manager installs <b>BepInExPack</b>, Haulnet's only dependency, by itself.</p>
+<h2 id="requirements">Requirements</h2>
+<ul>
+  <li>R.E.P.O. from Steam, on Windows. Everyone you play with in a Haulnet game needs Haulnet and the same game
+    version.</li>
+  <li><a href="https://thunderstore.io/c/repo/p/BepInEx/BepInExPack/">BepInExPack</a> (BepInEx 5), Haulnet's only
+    dependency.</li>
+  <li>Hosting “On my PC” runs a small Windows server program next to the game; joining needs nothing extra.</li>
+  <li>Not tested yet: Linux, Proton and Steam Deck.</li>
+</ul>
 
 <h2 id="manual">By hand</h2>
-<ol>
-  <li>Install <a href="https://thunderstore.io/c/repo/p/BepInEx/BepInExPack/">BepInExPack</a> (BepInEx 5) into the
-    game folder and start the game once, so BepInEx creates its folders.</li>
+<ol class="steps">
+  <li>Install <a href="https://thunderstore.io/c/repo/p/BepInEx/BepInExPack/">BepInExPack</a> into the game folder and
+    start the game once, so BepInEx creates its folders.</li>
   <li>Download the release zip and extract it into <code>REPO/BepInEx/plugins</code>. You get
     <code>BepInEx/plugins/Haulnet/Haulnet.dll</code> and <code>BepInEx/plugins/Haulnet/server/luxon_server.exe</code>;
     keep the <code>server</code> folder next to the DLL.</li>
   <li>Start the game. <code>BepInEx/LogOutput.log</code> contains a line like
-    <code>[Info   :   Haulnet] Haulnet 0.4.0 loaded.</code></li>
+    <code>[Info   :   Haulnet] Haulnet <i>version</i> loaded.</code></li>
 </ol>
 <p class="actions">{{manual_download}}</p>
 
-<h2 id="source">From source</h2>
-<p>Needs the game with BepInEx 5 installed and the <a href="https://dotnet.microsoft.com/download">.NET SDK</a> 8
-  or newer:</p>
-<pre><code>git clone https://github.com/haulnet/haulnet-repo.git
-cd haulnet-repo
-copy mod\Directory.Build.user.props.example mod\Directory.Build.user.props
-rem set GameDir in that file to the folder with REPO.exe
-dotnet build mod/Haulnet.sln -c Release</code></pre>
-<p>The build downloads the pinned LuxonServer release, checks its SHA-256 and, with <code>DeployToGame</code> set to
-  <code>true</code>, copies the plugin into <code>BepInEx/plugins/Haulnet</code>. Details are in the
-  <a href="https://github.com/haulnet/haulnet-repo#building-from-source">README</a>.</p>
+<h2 id="mod-manager">With a mod manager</h2>
+<p>Haulnet is planned for Thunderstore, so that it installs like any other mod in <b>r2modman</b>, <b>Gale</b> or the
+  Thunderstore app, with BepInExPack installed by the manager. This page will say so when it is there.</p>
 
 <h2 id="windows-firewall">First start: Windows Firewall</h2>
 <p>The first time you host “On my PC”, Windows may ask whether <code>luxon_server</code> and R.E.P.O. may use the
@@ -40,8 +36,23 @@ dotnet build mod/Haulnet.sln -c Release</code></pre>
 
 <h2 id="update">Update and remove</h2>
 <ul>
-  <li><b>Mod manager:</b> update or uninstall Haulnet in the manager.</li>
-  <li><b>By hand:</b> to update, replace the <code>BepInEx/plugins/Haulnet</code> folder with the new one; to
-    remove, delete that folder. Settings stay in <code>BepInEx/config/haulnet.repo.cfg</code> until you delete it.</li>
+  <li><b>Update:</b> replace the <code>BepInEx/plugins/Haulnet</code> folder with the new one (in a mod manager:
+    update Haulnet there).</li>
+  <li><b>Remove:</b> delete <code>BepInEx/plugins/Haulnet</code>. Settings stay in
+    <code>BepInEx/config/haulnet.repo.cfg</code> and the cached server list in <code>BepInEx/cache/Haulnet</code>
+    until you delete them.</li>
   <li>With Haulnet removed, the game is exactly as before. Haulnet never changes game files or system settings.</li>
 </ul>
+
+<h2 id="source">From source</h2>
+<p>For developers and testers. You need the game with BepInEx 5, the
+  <a href="https://dotnet.microsoft.com/download">.NET SDK</a> 8 or newer, and internet access for the first build.</p>
+<ol>
+  <li>Clone <a href="https://github.com/haulnet/haulnet-repo">haulnet/haulnet-repo</a>.</li>
+  <li>Copy <code>mod/Directory.Build.user.props.example</code> to <code>mod/Directory.Build.user.props</code> and set
+    <code>GameDir</code> in it to the folder with <code>REPO.exe</code>.</li>
+  <li>Run <code>dotnet build mod/Haulnet.sln -c Release</code>.</li>
+</ol>
+<p>The build downloads the pinned LuxonServer release, checks its SHA-256 and, with <code>DeployToGame</code> set to
+  <code>true</code>, copies the plugin into <code>BepInEx/plugins/Haulnet</code>. Details are in the
+  <a href="https://github.com/haulnet/haulnet-repo#building-from-source">README</a>.</p>

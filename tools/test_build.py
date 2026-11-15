@@ -25,7 +25,9 @@ class ValuesTests(unittest.TestCase):
         self.assertIn("no release yet", v["status_line"])
         self.assertIn("server <a", v["status_line"])
         self.assertIn("not released", v["mod_badge"])
-        self.assertIn("source", v["players_steps"])
+        self.assertIn("Watch", v["players_steps"])
+        self.assertIn("#source", v["release_note"])
+        self.assertNotIn("source", v["release_note_short"])
         self.assertEqual(v["built_at"], "2026-11-14 12:00 UTC")
         self.assertIn("&quot;europe-moscow-1&quot;:&quot;Moscow&quot;", v["cities_json"])
 
@@ -44,6 +46,70 @@ class ValuesTests(unittest.TestCase):
         self.assertNotIn("<script>", v["cities_json"])
 
 
+TAB, NL = "\t", "\n"
+STRINGS_TSV = NL.join([
+    "# comment",
+    "NO_SERVER.HEADER" + TAB + "NO SERVER",
+    "ADDRESS.HEADER" + TAB + "SERVER BY ADDRESS",
+    "LOST.HEADER" + TAB + "HAULNET: CONNECTION LOST",
+    "NO_SERVER.BODY" + TAB + "{city}: no server <answers>.",
+    "LOST.BODY" + TAB + r"Lost.\n{server}",
+    "LOST.BODY_HOST_PC" + TAB + "Lost {host}.",
+    "ADDRESS_ERROR.EMPTY" + TAB + "the address is empty",
+    "ADDRESS_ERROR.INVALID_IPV6" + TAB + "invalid IPv6 address '{value}'",
+]) + NL
+PAGE = NL.join([
+    "<dl>",
+    "<!-- msg: NO_SERVER id=no-server -->", "  <p>Why.</p>", "<!-- msg-list: ADDRESS_ERROR. -->", "<!-- /msg -->",
+    "<!-- msg: LOST body=LOST.BODY,LOST.BODY_HOST_PC -->", "  <p>Again.</p>", "<!-- /msg -->",
+    "</dl>",
+]) + NL
+
+
+class MessagesTests(unittest.TestCase):
+    """The troubleshooting page quotes the mod's own texts and must explain every message the game shows."""
+
+    def test_parse_strings(self):
+        strings = build.parse_strings(STRINGS_TSV)
+        self.assertEqual(strings["LOST.BODY"], "Lost." + NL + "{server}")
+        self.assertNotIn("# comment", strings)
+        with self.assertRaises(ValueError):
+            build.parse_strings("NO TAB HERE" + NL)
+
+    def test_render_quotes_texts(self):
+        page = build.render_messages(PAGE, build.parse_strings(STRINGS_TSV))
+        self.assertIn('<dt id="no-server">NO SERVER</dt>', page)
+        self.assertIn('<p class="msg"><i>city</i>: no server &lt;answers&gt;.</p>', page)
+        self.assertIn('<dt id="lost">HAULNET: CONNECTION LOST</dt>', page)
+        self.assertIn("Lost.<br><i>server</i>", page)
+        self.assertIn("<li>invalid IPv6 address '<i>value</i>'</li>", page)
+        self.assertNotIn("<!--", page)
+
+    def test_every_shown_message_needs_an_explanation(self):
+        strings = build.parse_strings(STRINGS_TSV + "BANNED.HEADER" + TAB + "BANNED" + NL)
+        with self.assertRaisesRegex(KeyError, "BANNED.HEADER"):
+            build.render_messages(PAGE, strings)
+
+    def test_unknown_key_fails(self):
+        with self.assertRaisesRegex(KeyError, "GONE"):
+            build.render_messages("<!-- msg: GONE -->x<!-- /msg -->", build.parse_strings(STRINGS_TSV))
+
+    def test_translated_titles(self):
+        titles = {"ru": {"NO_SERVER.HEADER": "НЕТ СЕРВЕРА"}}
+        page = build.render_messages(PAGE, build.parse_strings(STRINGS_TSV), titles)
+        self.assertIn('in Russian: <b lang="ru">НЕТ СЕРВЕРА</b>', page)
+        self.assertNotIn('lang="uk"', page)
+
+    def test_offline_shows_keys(self):
+        page = build.render_messages(PAGE, None)
+        self.assertIn("<code>NO_SERVER.HEADER</code>", page)
+
+    def test_real_page_blocks_are_well_formed(self):
+        text = (build.ROOT / "_pages" / "docs" / "troubleshooting.html").read_text(encoding="utf-8")
+        self.assertEqual(text.count("<!-- msg:"), text.count("<!-- /msg -->"))
+        self.assertEqual(len(build.MSG.findall(text)), text.count("<!-- msg:"))
+
+
 class RenderTests(unittest.TestCase):
     def test_unknown_placeholder_fails(self):
         with self.assertRaises(KeyError):
@@ -53,7 +119,7 @@ class RenderTests(unittest.TestCase):
         self.assertEqual(build.render("a {{x}} b {{ x }}", {"x": "1"}), "a 1 b 1")
 
     def test_index_has_only_known_placeholders(self):
-        fields = build.values({"mod": None, "server": SERVER, "list": LIST}, NOW)
+        fields = build.chrome(build.values({"mod": None, "server": SERVER, "list": LIST}, NOW))
         html = build.render((build.ROOT / "index.html").read_text(encoding="utf-8"), fields)
         self.assertNotIn("{{", html)
 
@@ -89,7 +155,9 @@ class BuildTests(unittest.TestCase):
             out = Path(tmp) / "site"
             build.build(out, offline=True, now=NOW)
             names = {p.name for p in out.iterdir()}
-            self.assertTrue({"index.html", "style.css", "live.js", "404.html", ".nojekyll", "assets"} <= names)
+            self.assertTrue({"index.html", "style.css", "live.js", "404.html", ".nojekyll", "assets", "robots.txt",
+                             "sitemap.xml"} <= names)
+            self.assertFalse(names & {"_partials", "_pages", "_layout.html"})
             self.assertFalse(names & {"tools", ".github", "README.md", ".git"})
             self.assertNotIn("{{", (out / "index.html").read_text(encoding="utf-8"))
 

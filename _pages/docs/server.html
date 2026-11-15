@@ -1,27 +1,29 @@
 <!-- title: Run a server -->
-<!-- description: Run the haulnet-server package (LuxonServer with a ready config and status endpoint) with Docker, systemd or Windows, keep it updated and list it publicly. -->
+<!-- description: Run a Haulnet server for R.E.P.O.: the haulnet-server package (LuxonServer with a ready config and status endpoint) with Docker, systemd or Windows, updates, and adding it to the public list. -->
 <h1>Run a server</h1>
 <p class="lead"><a href="https://github.com/haulnet/haulnet-server">haulnet-server</a> runs
   <a href="https://github.com/niansa/LuxonServer">LuxonServer</a>, an open-source Photon-compatible server, with a
-  ready config and a small status endpoint. Keep it private and share the address, or add it to the public list.</p>
+  ready config for R.E.P.O. and a small status endpoint. Keep it private and share the address, or add it to the
+  public list.</p>
 
 <h2 id="requirements">Requirements</h2>
 <ul>
   <li>Linux x86-64 (Docker or plain systemd) or Windows x64.</li>
-  <li>A public IPv4 address (IPv6 works too); UDP not filtered by the provider. Many players have no IPv6 (in Russia about
-    nine in ten), so an IPv6-only server is not enough.</li>
+  <li>A public IPv4 address; UDP not filtered by the provider. IPv6 works too, but an IPv6-only server is not
+    enough: most players have no IPv6 (in Russia about nine in ten).</li>
   <li>Bandwidth: roughly 2–4 Mbit/s outgoing per 6-player game. <b>This is an estimate</b>, not a measurement; an
     unmetered port of 100 Mbit/s or more and DDoS protection that covers UDP are recommended for public servers.</li>
   <li>CPU and memory are modest: LuxonServer is a single-threaded C++ program.</li>
 </ul>
 
 <h2 id="ports">Ports</h2>
+<p>Players connect to 27000 first; the server then hands them 27001 and 27002.</p>
 <table>
   <thead><tr><th>Port</th><th>Protocol</th><th>Purpose</th><th>Open to players</th></tr></thead>
   <tbody>
-    <tr><td>27000</td><td>UDP</td><td>NameServer (players connect here first)</td><td>yes</td></tr>
-    <tr><td>27001</td><td>UDP</td><td>MasterServer</td><td>yes</td></tr>
-    <tr><td>27002</td><td>UDP</td><td>GameServer</td><td>yes</td></tr>
+    <tr><td>27000</td><td>UDP</td><td>NameServer (first contact)</td><td>yes</td></tr>
+    <tr><td>27001</td><td>UDP</td><td>MasterServer (lobby)</td><td>yes</td></tr>
+    <tr><td>27002</td><td>UDP</td><td>GameServer (the game itself)</td><td>yes</td></tr>
     <tr><td>27080</td><td>TCP</td><td>Status endpoint (<code>/status</code>, <code>/healthz</code>)</td><td>yes, for server choice</td></tr>
     <tr><td>5088</td><td>TCP</td><td>LuxonServer's web API, <b>loopback only</b></td><td><b>never</b></td></tr>
   </tbody>
@@ -30,6 +32,8 @@
   always binds it to <code>127.0.0.1</code>: never publish or forward port 5088.</p>
 
 <h2 id="docker">Docker</h2>
+<p>Install <a href="https://docs.docker.com/engine/install/">Docker Engine</a> with its compose plugin first. The
+  commands below use <code>sudo</code>; as root, leave it out.</p>
 <pre><code>mkdir haulnet-server &amp;&amp; cd haulnet-server
 base=https://github.com/haulnet/haulnet-server/releases/latest/download
 curl -fsSLO "$base/docker-compose.yml"
@@ -39,13 +43,25 @@ nano haulnet-server.env        # set EXTERNAL_ADDRESS
 docker compose up -d
 docker compose logs -f</code></pre>
 <p>The compose file uses host networking and the image <code>ghcr.io/haulnet/haulnet-server:latest</code>. To stay
-  on one release, put <code>HAULNET_SERVER_TAG=&lt;version&gt;</code> into a file named <code>.env</code> next to
-  <code>docker-compose.yml</code>. Open the ports, for example with ufw:</p>
+  on one release, put its version without the <code>v</code>, for example <code>HAULNET_SERVER_TAG=0.1.4</code>,
+  into a file named <code>.env</code> next to <code>docker-compose.yml</code>. If the server has a firewall, open the
+  ports, for example with ufw:</p>
 <pre><code>sudo ufw allow 27000:27002/udp
 sudo ufw allow 27080/tcp</code></pre>
-<p>Without Docker: the release also has a Linux tarball with a systemd unit (dynamic unprivileged user, read-only
-  system) and a Windows zip with <code>start.bat</code>; see the
-  <a href="https://github.com/haulnet/haulnet-server#run-with-systemd-no-docker">README</a>.</p>
+
+<h2 id="no-docker">Without Docker</h2>
+<ul>
+  <li><b>Linux with systemd:</b> download <code>haulnet-server-<i>version</i>-linux-x86_64.tar.gz</code> and
+    <code>SHA256SUMS</code> from the <a href="https://github.com/haulnet/haulnet-server/releases/latest">latest
+    release</a> and check the file with <code>sha256sum --ignore-missing -c SHA256SUMS</code>. The tarball has
+    <code>haulnetd</code>, <code>luxon_server</code> and a systemd unit that runs as a dynamic unprivileged user on a
+    read-only system. Install steps:
+    <a href="https://github.com/haulnet/haulnet-server#run-with-systemd-no-docker">README</a>.</li>
+  <li><b>Windows:</b> unzip the release zip, run <code>start.bat</code> once (it creates
+    <code>haulnet-server.env</code>), set <code>EXTERNAL_ADDRESS</code> there and run <code>start.bat</code> again.
+    Allow <code>luxon_server.exe</code> (UDP) and <code>haulnetd.exe</code> (TCP 27080) in Windows Firewall. Stop the
+    server by closing its console window.</li>
+</ul>
 
 <h2 id="settings">Main settings</h2>
 <p>Environment variables, or <code>KEY=VALUE</code> lines in <code>haulnet-server.env</code>:</p>
@@ -61,27 +77,35 @@ sudo ufw allow 27080/tcp</code></pre>
       uses about two: game and voice).</td></tr>
     <tr><td><code>STATUS_ADDRESS</code></td><td><code>:27080</code></td><td>Where the status endpoint listens.</td></tr>
     <tr><td><code>STATS_LOG_INTERVAL</code></td><td>off</td><td>Log rooms, players, traffic and CPU load every
-      interval, e.g. <code>60s</code>.</td></tr>
+      interval of at least 10 s, e.g. <code>60s</code>.</td></tr>
   </tbody>
 </table>
 
 <h2 id="updating">Updating</h2>
-<p>Each release pins one LuxonServer version. When R.E.P.O. changes its Photon version, a new release follows, and
-  Haulnet hides servers with an incompatible version, so keep the server updated.</p>
-<pre><code>sudo ./haulnet-update            # update now if the server is empty, otherwise drain it first
-sudo ./haulnet-update enable     # automatic updates every 10 minutes (off by default)
-sudo ./haulnet-update status
-sudo ./haulnet-update rollback</code></pre>
-<p>While an update waits, the server <b>drains</b>: the status says <code>"accepting": false, "draining": true</code>,
-  Haulnet starts no new games there, and running games are not affected. If the new version does not come up within
-  90 seconds, the previous one starts again. Details:
-  <a href="https://github.com/haulnet/haulnet-server#updating">Updating</a>.</p>
+<p>Each release pins one LuxonServer version. When R.E.P.O. changes its Photon version, a new release follows; an
+  old server is then no longer chosen for its city and servers.haulnet.cc marks it <i>Incompatible</i>, so keep it
+  updated. With Docker, <code>haulnet-update</code> does it safely:</p>
+<pre><code>sudo ./haulnet-update enable     # automatic updates every 10 minutes (recommended)
+sudo ./haulnet-update status     # on/off, running version, last result
+sudo ./haulnet-update            # one check now
+sudo ./haulnet-update rollback   # back to the version before the last update
+sudo ./haulnet-update disable</code></pre>
+<p>An update installs only on an empty server. If players are on, the server <b>drains</b>: it starts no new games
+  (its status says <code>"accepting": false, "draining": true</code>) while running games go on, and the next check
+  installs the update once the server is empty. <b>After a single run by hand, run it again later</b> (or enable
+  automatic updates): until the update is installed, the server takes no new games. If the new version does not come
+  up within 90 seconds, the previous one starts again.</p>
+<p>Options in <code>haulnet-server.env</code>: <code>UPDATE_WINDOW=03:00-07:00</code> allows updates only at those
+  hours; <code>UPDATE_FORCE_AFTER=3h</code> installs anyway after waiting that long, and
+  <code>sudo ./haulnet-update --force</code> installs right now (both disconnect the players still on). Without
+  Docker, replace <code>haulnetd</code> and <code>luxon_server</code> with the ones from the new release and restart
+  the service. Details: <a href="https://github.com/haulnet/haulnet-server#updating">Updating</a>.</p>
 
 <h2 id="status">Status endpoint</h2>
 <pre><code>curl http://&lt;server&gt;:27080/status</code></pre>
-<p>It publishes counts and versions only (rooms, players, limits, <code>accepting</code>, <code>draining</code>,
-  uptime), never room names, player names, addresses or IDs. Haulnet uses it to pick a server; the
-  <a href="https://servers.haulnet.cc/">server list page</a> shows it live.</p>
+<p>It publishes counts and versions only (name, rooms, players, limits, CPU load, <code>accepting</code>,
+  <code>draining</code>, uptime), never room names, player names, addresses or IDs. Haulnet uses it to pick a server;
+  the <a href="https://servers.haulnet.cc/">server list page</a> shows it live.</p>
 
 <h2 id="privacy">Privacy</h2>
 <p>Like any game server, yours sees the IP addresses of connecting players, and LuxonServer's log also contains
@@ -90,14 +114,17 @@ sudo ./haulnet-update rollback</code></pre>
 <h2 id="list">Add it to the public list</h2>
 <ol>
   <li>Bring the server up and check <code>/status</code> from another machine.</li>
-  <li>Open a pull request to <a href="https://github.com/haulnet/haulnet-servers">haulnet-servers</a> with one file
+  <li>Fork <a href="https://github.com/haulnet/haulnet-servers">haulnet-servers</a> and add one file
     <code>servers/&lt;region&gt;/&lt;city&gt;-&lt;N&gt;.json</code>, following its
-    <a href="https://github.com/haulnet/haulnet-servers#adding-a-server">guide</a>. The name, like
-    <i>Europe [Moscow] #1</i>, is derived from the city and number.</li>
-  <li>CI checks the entry, its DNS and the status endpoint; a maintainer reviews and merges it. Within minutes the
-    mod and <a href="https://servers.haulnet.cc/">servers.haulnet.cc</a> show it, and the Haulnet monitor checks it
-    once a minute.</li>
+    <a href="https://github.com/haulnet/haulnet-servers#adding-a-server">guide</a>; add your city to
+    <code>data/locations.json</code> if it is not there. The name, like <i>Europe [Moscow] #1</i>, is derived from
+    the city and number.</li>
+  <li>Open a pull request. CI checks the entry, its DNS and the status endpoint; a maintainer reviews and merges it.
+    Within minutes the mod and <a href="https://servers.haulnet.cc/">servers.haulnet.cc</a> show it, and the Haulnet
+    monitor checks it once a minute.</li>
 </ol>
-<p>Rules for operators are in the <a href="https://github.com/haulnet/haulnet-servers#rules-for-operators">list's
-  README</a>: run the official package and keep it updated, keep the server reachable, never inspect or sell players'
-  traffic, no ads, payments or accounts for players.</p>
+<p>Rules for operators, in short (full text in the
+  <a href="https://github.com/haulnet/haulnet-servers#rules-for-operators">list's README</a>): run the official package
+  and keep it updated; keep the server reachable (a server unreachable for a week may be removed); answer reports
+  through the GitHub account in your entry; never inspect or sell players' traffic; no ads, payments or accounts for
+  players. Everything in an entry is public.</p>

@@ -1,29 +1,31 @@
 <!-- title: Play -->
-<!-- description: Host on your PC, play on community servers or any server by address; how friends join, ports, VPNs and settings. -->
+<!-- description: The HAULNET tab in R.E.P.O.: host on your PC, play on Haulnet servers or any server by address; how friends join, reaching the host's PC, ports and settings. -->
 <h1>Play</h1>
 <p class="lead">Open <b>Private game</b> or <b>Public game</b> as usual. The region page gets two tabs:
   <b>HAULNET</b> and <b>PHOTON CLOUD</b> (the game's own regions, unchanged). The tab you used last opens next time.
   Pick where the game lives, exactly like picking a region.</p>
 
 <h2 id="rows">The HAULNET tab</h2>
+<p>Your own places come first, the public cities last:</p>
 <table>
   <thead><tr><th>Row</th><th>What it does</th></tr></thead>
   <tbody>
     <tr><td><b>On my PC</b></td><td>Private games only. Enter the UDP port (the last one is prefilled, 27000 by
-      default); a server starts inside your game on that port and the next two, and stops when you return to the
+      default); a server starts next to your game on that port and the next two, and stops when you return to the
       main menu.</td></tr>
-    <tr><td><b>This PC · <i>name</i></b></td><td>A <a href="/docs/server/">haulnet-server</a> running on your own PC,
-      shown when its status endpoint answers.</td></tr>
-    <tr><td><b>Community servers</b></td><td>One row per city from <a href="https://servers.haulnet.cc/">the public
-      list</a>, with ping. Haulnet checks every server of the city and uses one that answers, accepts games and runs
-      a compatible version: for a private game the least busy of the closest ones, for a public game the busiest one,
-      so public players of a city meet.</td></tr>
-    <tr><td><b>Your servers</b></td><td>Up to five servers you played on recently, with ping, and the servers you
-      saved in the <a href="#config">config file</a>. A haulnet-server shows its name and whether it is
-      <i>full</i> or <i>updating</i>.</td></tr>
     <tr><td><b>+ Server by address...</b></td><td>Type <code>host</code> or <code>host:port</code> (port 27000 if
-      not given; IPv6 as <code>[2001:db8::1]:27000</code>; Ctrl+V pastes). The server does not need to be listed
-      anywhere.</td></tr>
+      not given; IPv6 as <code>[2001:db8::1]:27000</code>; Ctrl+V pastes). The last address that worked is
+      prefilled. The server does not need to be listed anywhere.</td></tr>
+    <tr><td><b>This PC · <i>name</i></b></td><td>Shown when a <a href="/docs/server/">haulnet-server</a> runs on
+      this PC.</td></tr>
+    <tr><td><i>Saved and recent servers</i></td><td>One row each, with the server's name or address: the servers you
+      saved in the <a href="#config">config file</a>, then up to five you played on recently. The right side shows
+      the ping, or <i>full</i> or <i>updating</i>.</td></tr>
+    <tr><td><i>One row per city</i>, e.g. <b>Europe [Moscow]</b></td><td>The cities of the
+      <a href="https://servers.haulnet.cc/">public server list</a>, with ping. Haulnet checks every server of the city
+      and uses one that answers, accepts games and runs a compatible version: for a private game the least busy of
+      the closest ones, for a public game the busiest one, so public players of a city meet. Cities are ordered by
+      your ping and their stability over the last day and week, closest and most stable first.</td></tr>
   </tbody>
 </table>
 <p>On a server, a private game works as usual: invite friends through Steam. A public game opens the game's own
@@ -31,9 +33,9 @@
   that server.</p>
 
 <h2 id="friends">How friends join</h2>
-<p>Friends accept the Steam invite or use <i>Join friend</i>, as always. The invite says where the game lives: on a
-  server, or on the host's PC with all of the host's addresses and the port. Haulnet uses the address that answers
-  first. Under “Press T to chat” the lobby shows where you are:</p>
+<p>Friends accept the Steam invite or use <i>Join game</i> in the Steam friends list, as always. The invite says
+  where the game lives: on a server, or on the host's PC with all of the host's addresses and the port. Haulnet uses
+  the address that answers first. Under “Press T to chat” the lobby shows where you are:</p>
 <ul>
   <li><code>Haulnet · on your PC · UDP 27000-27002</code> for the host of an “On my PC” game;</li>
   <li><code>Haulnet · host <i>address</i></code> for a friend connected to the host's PC;</li>
@@ -41,24 +43,25 @@
     server.</li>
 </ul>
 <p>If a friend cannot connect, the friend sees which addresses and port were tried and the host sees who got no
-  answer (see <a href="/docs/troubleshooting/#unreachable">Troubleshooting</a>). Lobby password, kick and ban work
+  answer (see <a href="/docs/troubleshooting/#no-answer">Troubleshooting</a>). Lobby password, kick and ban work
   too; in a Haulnet game the host's mod checks them, so a refused player may appear in the lobby for a moment before
   being removed.</p>
 
 <h2 id="network">Reaching the host's PC</h2>
-<p>“On my PC” needs an IP path from your friends to your PC. Haulnet does not guess or set one up; anything that
+<p>“On my PC” needs a network path from your friends to your PC. Haulnet does not guess or set one up; anything that
   connects the two PCs works:</p>
 <table>
-  <thead><tr><th>Situation</th><th>What to do</th></tr></thead>
+  <thead><tr><th>Situation</th><th>What to do</th><th>Tested with two PCs</th></tr></thead>
   <tbody>
-    <tr><td>Same home or LAN party</td><td>Nothing. Friends use your local address from the invite.</td></tr>
-    <tr><td>A VPN you already use (WireGuard, Radmin VPN, ZeroTier, Tailscale…)</td><td>Everyone connects to the VPN
-      first; the invite contains your VPN address.</td></tr>
-    <tr><td>Both sides have IPv6</td><td>Usually works without changes, if your router lets incoming UDP through.</td></tr>
+    <tr><td>A VPN (Radmin VPN, ZeroTier, Tailscale, WireGuard…)</td><td>Everyone connects to the same VPN first; the
+      invite contains your VPN address.</td><td>yes, Radmin VPN</td></tr>
+    <tr><td>Same home or LAN party</td><td>Allow the Windows Firewall prompt; friends use your local address from the
+      invite.</td><td>not yet</td></tr>
+    <tr><td>Both sides have IPv6</td><td>Your router must let incoming UDP through to your PC.</td><td>not yet</td></tr>
     <tr><td>Router with a public IPv4 address</td><td>Forward UDP 27000–27002 (or your port and the next two) to your
-      PC.</td></tr>
-    <tr><td>None of these (for example carrier-grade NAT)</td><td>Create the game on a <b>community server</b>
-      instead: nobody needs to reach your PC.</td></tr>
+      PC.</td><td>not yet</td></tr>
+    <tr><td>None of these (most home connections)</td><td>Create the game on a <b>Haulnet server</b> instead: nobody
+      needs to reach your PC.</td><td>yes</td></tr>
   </tbody>
 </table>
 <p>Ports: the server on your PC uses the port you enter and the next two (<b>UDP 27000–27002</b> by default). A short
@@ -76,7 +79,11 @@
       <code>Name=host[:port]</code> separated by <code>;</code>, for example
       <code>Dacha=play.example.org;Office=203.0.113.5:27100</code>.</td></tr>
     <tr><td><code>[Servers] Recent</code></td><td>Filled automatically: servers you played on recently.</td></tr>
+    <tr><td><code>[Servers] LastAddress</code></td><td>Filled automatically: the last address typed in
+      <i>+ Server by address</i> whose game opened.</td></tr>
+    <tr><td><code>[Servers] LastTab</code></td><td>Filled automatically: the tab that opens first.</td></tr>
     <tr><td><code>[Servers] RegistryUrl</code></td><td>Empty uses the Haulnet list. A community can point it at its
-      own list in the same format (<code>http(s)://</code> or <code>file:///</code>).</td></tr>
+      own list in the same format: <code>https://</code>, <code>file:///</code>, or <code>http://localhost</code> for
+      a list on this PC (the game refuses plain <code>http://</code> to other hosts).</td></tr>
   </tbody>
 </table>
