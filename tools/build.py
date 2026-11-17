@@ -41,12 +41,13 @@ MSG = re.compile(r"<!--\s*msg:\s*([A-Z_]+)((?:\s+[a-z]+=[^\s>]+)*)\s*-->(.*?)<!-
 MSG_LIST = re.compile(r"<!--\s*msg-list:\s*([A-Z_]+\.)\s*-->")
 TEMPLATES = ("index.html", "404.html")
 # Files and folders of the repository that are not part of the published site.
-EXCLUDE = {".git", ".github", ".gitattributes", ".gitignore", "tools", "README.md", "_site", "CNAME", "_pages",
-           "_layout.html", "_partials"}
+EXCLUDE = {".git", ".github", ".gitattributes", ".gitignore", "tools", "README.md", "LICENSE", "_site", "CNAME",
+           "_pages", "_layout.html", "_partials"}
 PLACEHOLDER = re.compile(r"\{\{\s*([a-z_]+)\s*\}\}")
 FRONT_MATTER = re.compile(r"\A(?:\s*<!--\s*([a-z]+):\s*(.*?)\s*-->\n)+")
 FRONT_LINE = re.compile(r"<!--\s*([a-z]+):\s*(.*?)\s*-->")
-# Main navigation: (key, href, label). The docs pages mark "docs" (or "server" on /docs/server/) as current.
+# Main navigation: (key, href, label). Only the page a link leads to marks it as current: /docs/ marks "docs" and
+# /docs/server/ marks "server"; the other docs pages mark nothing here (their own link is in the docs navigation).
 SITE_NAV = (("docs", "/docs/", "Docs"), ("servers", "https://servers.haulnet.cc/", "Servers"),
             ("server", "/docs/server/", "Run a server"), ("github", "https://github.com/haulnet", "GitHub"))
 # Documentation pages: _pages/docs/<name>.html → /docs/<name>/ (index.html → /docs/), in this navigation order.
@@ -304,8 +305,10 @@ def build_pages(out: Path, fields: dict[str, str], strings: dict[str, str] | Non
         path = "docs/" if name == "index" else f"docs/{name}/"
         if name == "troubleshooting":
             body = render_messages(body, strings, titles)
-        page = dict(chrome(fields, "server" if name == "server" else "docs"), title=html.escape(meta["title"]), description=html.escape(meta["description"]),
-                    canonical=f"https://haulnet.cc/{path}", docs_nav=docs_nav(name), content=wrap_tables(render(body, fields)))
+        current = {"index": "docs", "server": "server"}.get(name)
+        page = dict(chrome(fields, current), title=html.escape(meta["title"]),
+                    description=html.escape(meta["description"]), canonical=f"https://haulnet.cc/{path}",
+                    docs_nav=docs_nav(name), content=wrap_tables(render(body, fields)))
         target = out / path / "index.html"
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(render(layout, page), encoding="utf-8", newline="\n")
