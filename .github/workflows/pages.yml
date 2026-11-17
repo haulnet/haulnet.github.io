@@ -8,6 +8,9 @@ on:
     # Hourly, away from the full hour (GitHub delays scheduled runs at the start of the hour).
     - cron: "17 * * * *"
   workflow_dispatch:
+  # The mod's release workflow can ask for a rebuild, so a new release shows without waiting for the schedule.
+  repository_dispatch:
+    types: [mod-release]
 
 permissions:
   contents: read
