@@ -11,16 +11,17 @@
 <div class="cards two">
   <article class="card">
     <h3>For you and your friends</h3>
-    <p>A server at home, at a LAN party or on a VPS that only your group uses. Share its address; friends pick it with
-      <i>+ Server by address</i>. It is yours: turn it off whenever you like, nobody else depends on it. No listing and
-      no rules. (To host a single game on your own PC you need no server at all: use <i>On my PC</i>.)</p>
+    <p>A server at home, at a LAN party or on a VPS that only your group uses. Share its address; friends type it into
+      the <i>+ Server by address...</i> row. It is yours: turn it off whenever you like, nobody else depends on it. No
+      listing and no rules. (To host a single game on your own PC you need no server at all: use <i>On my PC</i>.)</p>
   </article>
   <article class="card">
     <h3>For everyone: the public list</h3>
     <p>A listed server appears in every player's game as part of a city row, and Haulnet sends other people's games
       to it. That is a commitment: it must stay <b>online around the clock</b> on a stable public address, stay
-      updated, and its operator answers reports. The Haulnet monitor checks it every minute, opens an issue after an
-      hour offline, ranks it lower in its city after outages, and a server unreachable for a week may be removed.</p>
+      updated, and its operator answers reports. The Haulnet server monitor checks it every minute, opens an issue
+      after an hour offline, ranks it lower in its city after outages, and a server unreachable for a week may be
+      removed.</p>
   </article>
 </div>
 
@@ -149,7 +150,7 @@ sudo ./haulnet-update disable</code></pre>
     the city and number.</li>
   <li>Open a pull request. CI checks the entry, its DNS and the status endpoint; a maintainer reviews and merges it.
     Within minutes the mod and <a href="https://servers.haulnet.cc/">servers.haulnet.cc</a> show it, and the Haulnet
-    monitor checks it once a minute.</li>
+    server monitor checks it once a minute.</li>
 </ol>
 <p>Rules for operators, in short (full text in the
   <a href="https://github.com/haulnet/haulnet-servers#rules-for-operators">list's README</a>): run the official package

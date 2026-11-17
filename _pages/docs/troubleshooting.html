@@ -34,9 +34,9 @@
     65535; without a port, 27000 is used.</p>
 <!-- /msg -->
 <!-- msg: NOT_RUNNING id=not-running -->
-  <p>The computer at that address is on, but its game server (LuxonServer) is not. A ping on the row only shows that
-    the machine answers. If you run the server, start it and check that UDP 27000–27002 are open; otherwise ask its
-    owner.</p>
+  <p>The computer at that address is on, but its game server (LuxonServer) is not. The row of a saved or recent
+    server in this state shows <i>—</i>, not a ping. If you run the server, start it and check that UDP 27000–27002
+    are open; otherwise ask its owner.</p>
 <!-- /msg -->
 </dl>
 
@@ -61,6 +61,9 @@
   <p>The game was updated and Haulnet switched itself off instead of risking a broken game. Photon Cloud games keep
     working. Look for a Haulnet update; if invites to Haulnet games stop working after a game update, update
     Haulnet too.</p>
+  <p>This message does not appear in every case. When the update changed the part of the game that Haulnet
+    redirects, Haulnet switches itself off without a message: the HAULNET tab is absent, and
+    <code>BepInEx/LogOutput.log</code> says why (<a href="#no-tab">No HAULNET tab</a>).</p>
 <!-- /msg -->
 <!-- msg: WRONG_PASSWORD id=wrong-password -->
   <p>Ask the host for the password.</p>
@@ -92,9 +95,10 @@
 <!-- /msg -->
 <!-- msg: FRIEND_FAILED id=friend-failed body=FRIEND_UNREACHABLE.BODY,FRIEND_UNREACHABLE.BODY_UNNAMED -->
   <p>Your friend cannot reach your PC. Check, in this order: Windows Firewall allows <code>luxon_server</code> and
-    R.E.P.O. (<a href="/docs/install/#windows-firewall">how</a>); you are both in the same Radmin VPN or WireGuard network or home network;
-    or your router forwards those UDP ports to your PC. If none of that is possible, create the game on a Haulnet
-    server instead: <a href="/docs/play/#network">Reaching the host's PC</a>.</p>
+    R.E.P.O. (<a href="/docs/install/#windows-firewall">how</a>); you are both in the same home network, the same
+    Radmin VPN network or the same WireGuard network, or you both have IPv6 and your router lets incoming UDP through
+    to your PC. If none of that is possible, create the game on a Haulnet server instead:
+    <a href="/docs/play/#network">Reaching the host's PC</a>.</p>
 <!-- /msg -->
 </dl>
 
@@ -108,9 +112,30 @@
     <tr><td>{{row_updating}}</td><td>The server is waiting to install an update.</td></tr>
     <tr><td>{{row_checking}}</td><td>Haulnet is still asking the servers.</td></tr>
     <tr><td>—</td><td>No answer: the name does not resolve, the machine does not answer, or no server of the city can
-      take a game.</td></tr>
+      take a game. On a saved or recent server also: the machine answers, but no game server runs on its game port
+      (<a href="#not-running">SERVER NOT RUNNING</a>).</td></tr>
   </tbody>
 </table>
+
+<h2 id="no-message">Problems without a message</h2>
+<dl class="faq">
+  <dt id="no-tab">No HAULNET tab: the mod did not load</dt>
+  <dd>
+    <p>Open <code>BepInEx/LogOutput.log</code> in the game folder and look for the line
+      <code>[Info   :   Haulnet] Haulnet <i>version</i> loaded.</code></p>
+    <ul>
+      <li><b>There is no <code>LogOutput.log</code>:</b> BepInExPack is not installed in the game folder. Install it
+        and start the game once (<a href="/docs/install/#manual">Install</a>).</li>
+      <li><b>The log has no Haulnet lines:</b> the Haulnet folder is in the wrong place. It must be
+        <code>BepInEx/plugins/Haulnet/Haulnet.dll</code>, with the <code>server</code> folder next to it.</li>
+      <li><b>The log has a Haulnet line that starts with <code>Could not install patches</code>:</b> the game was
+        updated and Haulnet switched itself off without a message. Photon Cloud games keep working; look for a
+        Haulnet update.</li>
+    </ul>
+    <p>With the line in the log, Haulnet is loaded; if the tab is still absent, see
+      <a href="#incompatible">HAULNET IS OFF</a>.</p>
+  </dd>
+</dl>
 
 <h2 id="other">The game's own messages</h2>
 <p>If you see the game's own <i>Disconnected</i> message (for example <code>ClientTimeout</code>) instead of a
