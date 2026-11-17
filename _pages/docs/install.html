@@ -1,5 +1,5 @@
 <!-- title: Install -->
-<!-- description: Install Haulnet for R.E.P.O.: requirements, manual install, mod managers, building from source, Windows Firewall, updating and removing. -->
+<!-- description: Install Haulnet for R.E.P.O.: requirements, manual install, building from source, Windows Firewall, updating and removing. -->
 <h1>Install</h1>
 <p class="lead">{{release_note}}</p>
 
@@ -24,10 +24,6 @@
 </ol>
 <p class="actions">{{manual_download}}</p>
 
-<h2 id="mod-manager">With a mod manager</h2>
-<p>Haulnet is planned for Thunderstore, so that it installs like any other mod in <b>r2modman</b>, <b>Gale</b> or the
-  Thunderstore app, with BepInExPack installed by the manager. This page will say so when it is there.</p>
-
 <h2 id="windows-firewall">First start: Windows Firewall</h2>
 <p>The first time you host “On my PC”, Windows may ask whether <code>luxon_server</code> and R.E.P.O. may use the
   network. Allow it for the networks your friends come from (your home network, the Radmin VPN or WireGuard adapter). Without it,
@@ -35,8 +31,7 @@
 
 <h2 id="update">Update and remove</h2>
 <ul>
-  <li><b>Update:</b> replace the <code>BepInEx/plugins/Haulnet</code> folder with the new one (in a mod manager:
-    update Haulnet there).</li>
+  <li><b>Update:</b> replace the <code>BepInEx/plugins/Haulnet</code> folder with the new one.</li>
   <li><b>Remove:</b> delete <code>BepInEx/plugins/Haulnet</code>. Settings stay in
     <code>BepInEx/config/haulnet.repo.cfg</code> and the cached server list in <code>BepInEx/cache/Haulnet</code>
     until you delete them.</li>

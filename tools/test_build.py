@@ -158,7 +158,7 @@ class BuildTests(unittest.TestCase):
             self.assertTrue({"index.html", "style.css", "live.js", "404.html", ".nojekyll", "assets", "robots.txt",
                              "sitemap.xml"} <= names)
             self.assertFalse(names & {"_partials", "_pages", "_layout.html"})
-            self.assertFalse(names & {"tools", ".github", "README.md", ".git"})
+            self.assertFalse(names & {"tools", ".github", "README.md", "LICENSE", ".git"})
             self.assertNotIn("{{", (out / "index.html").read_text(encoding="utf-8"))
 
     def test_live_block_reads_the_published_list(self):

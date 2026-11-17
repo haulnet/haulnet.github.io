@@ -20,21 +20,22 @@
 
 <h2 id="how">How it works</h2>
 <p>R.E.P.O. uses Photon for multiplayer: every player connects to a Photon server, which relays the game between
-  them. That server normally lives in Photon Cloud, the game's online service, even when both players sit in the
-  same room. Haulnet points the game at a different, Photon-compatible server instead:
+  them. That server normally lives in Photon Cloud, the game's online service, even when both players sit on the
+  same network. Haulnet points the game at a different, Photon-compatible server instead:
   <a href="https://github.com/niansa/LuxonServer">LuxonServer</a>, an open-source implementation by its own author.</p>
 <ul>
   <li><b>On my PC:</b> the host's Haulnet starts LuxonServer next to the game when the host creates the game, and
     stops it when the host returns to the main menu, like Minecraft's “Open to LAN”.</li>
-  <li><b>Haulnet servers:</b> the <a href="/docs/server/">haulnet-server</a> package on a VPS. The public list at
+  <li><b>Listed Haulnet servers:</b> the public list at
     <a href="https://servers.haulnet.cc/">servers.haulnet.cc</a> shows official servers run by the Haulnet project
-    and community servers, by city.</li>
-  <li><b>Server by address:</b> any server you or a friend runs, listed or not.</li>
+    and community servers, by city. Each runs the <a href="/docs/server/">haulnet-server</a> package.</li>
+  <li><b>Server by address:</b> any server you or a friend runs, listed or not; its address goes into the row
+    <b>+ Server by address...</b></li>
 </ul>
 <p>The Steam invite carries where the game lives, so friends follow it as usual. Until you pick a row in the
   HAULNET tab, the game plays exactly as without the mod.</p>
 
-<h2 id="status">Releases</h2>
+<h2 id="releases">Releases</h2>
 <p>{{release_note_short}} On <a href="https://github.com/haulnet/haulnet-repo/releases">GitHub</a>,
   <i>Watch → Custom → Releases</i> tells you about new ones. The live state of the servers is on
   <a href="https://servers.haulnet.cc/">servers.haulnet.cc</a>.</p>
@@ -42,10 +43,10 @@
 <h2 id="privacy">Privacy and safety</h2>
 <ul>
   <li>Haulnet sends no telemetry. It downloads the public server list, reads the servers' uptime from the Haulnet
-    monitor (<code>monitor.haulnet.cc</code>), pings the listed servers and asks them for their status (counts and
-    versions only).</li>
-  <li>Whoever runs the server of a game sees the players' IP addresses, as Photon does in Photon Cloud. On your PC
-    that is you; on a listed server it is its operator, shown in the list.</li>
+    server monitor (<code>monitor.haulnet.cc</code>), pings the listed servers and asks them for their status (counts
+    and versions only).</li>
+  <li>Whoever runs the server of a game sees the players' IP addresses and Steam IDs, as Photon does in Photon
+    Cloud. On your PC that is you; on a listed server it is its operator, shown in the list.</li>
   <li>The host's addresses travel to invited friends in the Steam lobby data, so they can connect.</li>
   <li>Haulnet needs no administrator rights and changes no system settings or the <code>hosts</code> file.</li>
 </ul>
@@ -66,9 +67,11 @@
   <dt id="rejoin">My friend cannot rejoin during a level.</dt>
   <dd>That is the game's own rule: joining works in the lobby, not while a level runs, with or without Haulnet.</dd>
   <dt id="game-update">The game was updated. What happens to Haulnet?</dt>
-  <dd>If Haulnet does not recognise the new version, it switches itself off with the message
-    <a href="/docs/troubleshooting/#incompatible">HAULNET IS OFF</a> and you play through Photon Cloud as usual
-    until a Haulnet update comes out.</dd>
+  <dd>If Haulnet does not recognise the new version, it switches itself off and you play through Photon Cloud as
+    usual until a Haulnet update comes out. The message
+    <a href="/docs/troubleshooting/#incompatible">HAULNET IS OFF</a> says so. When the update changed the part of the
+    game that Haulnet redirects, there is no message: the HAULNET tab is absent and
+    <code>BepInEx/LogOutput.log</code> says why (<a href="/docs/troubleshooting/#no-tab">No HAULNET tab</a>).</dd>
   <dt id="ping">Which city should I pick?</dt>
   <dd>The one with the lowest ping. Ping depends on your provider's route, not on distance: a player in Siberia
     measured a lower ping to Moscow than to Novosibirsk. Haulnet orders cities by your measured ping and their

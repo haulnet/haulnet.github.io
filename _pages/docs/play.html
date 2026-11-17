@@ -49,7 +49,7 @@
 
 <h2 id="network">Reaching the host's PC</h2>
 <p>“On my PC” needs a network path from your friends to your PC. Haulnet does not guess or set one up; anything that
-  connects the two PCs works:</p>
+  gives your PC an address of its own that your friends can reach works:</p>
 <table>
   <thead><tr><th>Situation</th><th>What to do</th></tr></thead>
   <tbody>
@@ -62,10 +62,9 @@
     <tr><td>Same home or LAN party</td><td>Allow the Windows Firewall prompt; friends use your local address from the
       invite.</td></tr>
     <tr><td>Both sides have IPv6</td><td>Your router must let incoming UDP through to your PC.</td></tr>
-    <tr><td>Router with a public IPv4 address</td><td>Forward UDP 27000–27002 (or your port and the next two) to your
-      PC.</td></tr>
-    <tr><td>None of these (most home connections)</td><td>Create the game on a <b>Haulnet server</b> instead: nobody
-      needs to reach your PC.</td></tr>
+    <tr><td>None of these (most home connections)</td><td>Forwarding a port on the router is not enough, because the
+      invite contains only the addresses of the PC itself, not the router's public address. Create the game on a
+      <b>listed Haulnet server</b> instead: nobody needs to reach your PC.</td></tr>
   </tbody>
 </table>
 <p>Ports: the server on your PC uses the port you enter and the next two (<b>UDP 27000–27002</b> by default). A short
@@ -84,7 +83,7 @@
       <code>Dacha=play.example.org;Office=203.0.113.5:27100</code>.</td></tr>
     <tr><td><code>[Servers] Recent</code></td><td>Filled automatically: servers you played on recently.</td></tr>
     <tr><td><code>[Servers] LastAddress</code></td><td>Filled automatically: the last address typed in
-      <i>+ Server by address</i> whose game opened.</td></tr>
+      <i>+ Server by address...</i> whose game opened.</td></tr>
     <tr><td><code>[Servers] LastTab</code></td><td>Filled automatically: the tab that opens first.</td></tr>
     <tr><td><code>[Servers] RegistryUrl</code></td><td>Empty uses the Haulnet list. A community can point it at its
       own list in the same format: <code>https://</code>, <code>file:///</code>, or <code>http://localhost</code> for

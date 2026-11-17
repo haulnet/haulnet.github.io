@@ -41,8 +41,8 @@ MSG = re.compile(r"<!--\s*msg:\s*([A-Z_]+)((?:\s+[a-z]+=[^\s>]+)*)\s*-->(.*?)<!-
 MSG_LIST = re.compile(r"<!--\s*msg-list:\s*([A-Z_]+\.)\s*-->")
 TEMPLATES = ("index.html", "404.html")
 # Files and folders of the repository that are not part of the published site.
-EXCLUDE = {".git", ".github", ".gitattributes", ".gitignore", "tools", "README.md", "_site", "CNAME", "_pages",
-           "_layout.html", "_partials"}
+EXCLUDE = {".git", ".github", ".gitattributes", ".gitignore", "tools", "README.md", "LICENSE", "_site", "CNAME",
+           "_pages", "_layout.html", "_partials"}
 PLACEHOLDER = re.compile(r"\{\{\s*([a-z_]+)\s*\}\}")
 FRONT_MATTER = re.compile(r"\A(?:\s*<!--\s*([a-z]+):\s*(.*?)\s*-->\n)+")
 FRONT_LINE = re.compile(r"<!--\s*([a-z]+):\s*(.*?)\s*-->")
@@ -304,8 +304,10 @@ def build_pages(out: Path, fields: dict[str, str], strings: dict[str, str] | Non
         path = "docs/" if name == "index" else f"docs/{name}/"
         if name == "troubleshooting":
             body = render_messages(body, strings, titles)
-        page = dict(chrome(fields, "server" if name == "server" else "docs"), title=html.escape(meta["title"]), description=html.escape(meta["description"]),
-                    canonical=f"https://haulnet.cc/{path}", docs_nav=docs_nav(name), content=wrap_tables(render(body, fields)))
+        current = "server" if name == "server" else "docs"
+        page = dict(chrome(fields, current), title=html.escape(meta["title"]),
+                    description=html.escape(meta["description"]), canonical=f"https://haulnet.cc/{path}",
+                    docs_nav=docs_nav(name), content=wrap_tables(render(body, fields)))
         target = out / path / "index.html"
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(render(layout, page), encoding="utf-8", newline="\n")
