@@ -46,8 +46,7 @@ EXCLUDE = {".git", ".github", ".gitattributes", ".gitignore", "tools", "README.m
 PLACEHOLDER = re.compile(r"\{\{\s*([a-z_]+)\s*\}\}")
 FRONT_MATTER = re.compile(r"\A(?:\s*<!--\s*([a-z]+):\s*(.*?)\s*-->\n)+")
 FRONT_LINE = re.compile(r"<!--\s*([a-z]+):\s*(.*?)\s*-->")
-# Main navigation: (key, href, label). Only the page a link leads to marks it as current: /docs/ marks "docs" and
-# /docs/server/ marks "server"; the other docs pages mark nothing here (their own link is in the docs navigation).
+# Main navigation: (key, href, label). The docs pages mark "docs" (or "server" on /docs/server/) as current.
 SITE_NAV = (("docs", "/docs/", "Docs"), ("servers", "https://servers.haulnet.cc/", "Servers"),
             ("server", "/docs/server/", "Run a server"), ("github", "https://github.com/haulnet", "GitHub"))
 # Documentation pages: _pages/docs/<name>.html → /docs/<name>/ (index.html → /docs/), in this navigation order.
@@ -305,7 +304,7 @@ def build_pages(out: Path, fields: dict[str, str], strings: dict[str, str] | Non
         path = "docs/" if name == "index" else f"docs/{name}/"
         if name == "troubleshooting":
             body = render_messages(body, strings, titles)
-        current = {"index": "docs", "server": "server"}.get(name)
+        current = "server" if name == "server" else "docs"
         page = dict(chrome(fields, current), title=html.escape(meta["title"]),
                     description=html.escape(meta["description"]), canonical=f"https://haulnet.cc/{path}",
                     docs_nav=docs_nav(name), content=wrap_tables(render(body, fields)))

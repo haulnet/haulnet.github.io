@@ -188,9 +188,6 @@ class PagesTests(unittest.TestCase):
                 text = (out / path / "index.html").read_text(encoding="utf-8")
                 self.assertNotIn("{{", text, path)
                 self.assertIn(f'aria-current="page">{label}<', text, path)
-                # In the main navigation only the link to the page itself is current.
-                self.assertEqual('<a href="/docs/" aria-current="page">Docs</a>' in text, name == "index", path)
-                self.assertEqual(text.count('aria-current="page"'), 2 if name in ("index", "server") else 1, path)
                 pages["/" + path] = text
             pages["/"] = (out / "index.html").read_text(encoding="utf-8")
             for source, text in pages.items():
