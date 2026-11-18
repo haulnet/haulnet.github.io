@@ -56,6 +56,15 @@
   <dt id="friends-need-it">Do my friends need Haulnet?</dt>
   <dd>Yes. Everyone in a Haulnet game needs Haulnet and the same game version. Photon Cloud games still work with
     friends who do not have it.</dd>
+  <dt id="same-version">Do all players need the same Haulnet version?</dt>
+  <dd>The same game version, yes: that is the game's own rule. Haulnet does not check which Haulnet version the
+    others have. The invite carries the number of its format: Haulnet reads the current format and the one before
+    it, and when the host's Haulnet writes a newer format than a friend's Haulnet knows, the friend's Haulnet notes
+    it in <code>BepInEx/LogOutput.log</code> and tries to connect anyway. Use the latest release on every PC.</dd>
+  <dt id="players">How many players can join an “On my PC” game?</dt>
+  <dd>The server that Haulnet starts on your PC accepts 20 connections, and every player, the host included, uses
+    about two of them: one for the game and one for voice. That is room for about 10 players; the game's own player
+    limit still applies.</dd>
   <dt id="no-vpn">My friend cannot join my “On my PC” game. Why?</dt>
   <dd>Your friend's PC has no network path to yours. Most home connections cannot be reached from outside without
     help. Join the same <a href="https://www.radmin-vpn.com/">Radmin VPN</a> network (free, Windows) or a
@@ -82,6 +91,9 @@
   <dt id="languages">Is Haulnet in my language?</dt>
   <dd>Haulnet's own texts are in English, Russian and Ukrainian and follow the game's language; other languages show
     English. Translations are welcome on <a href="https://github.com/haulnet/haulnet-repo">GitHub</a>.</dd>
+  <dt id="linux">Does Haulnet support Linux, Steam Deck or Proton?</dt>
+  <dd>No. Haulnet is made for R.E.P.O. on Windows: hosting “On my PC” starts a Windows program,
+    <code>luxon_server.exe</code>, next to the game. Linux and Steam Deck are not supported.</dd>
   <dt id="other-mods">Does it work with other mods?</dt>
   <dd>Haulnet only changes where the game connects and adds a tab to the region page. Mods that change the same
     menus or the connection may conflict; report it with both mods named.</dd>
