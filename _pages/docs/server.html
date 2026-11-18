@@ -36,7 +36,8 @@
 </ul>
 
 <h2 id="ports">Ports</h2>
-<p>Players connect to 27000 first; the server then hands them 27001 and 27002.</p>
+<p>Players connect to 27000 first; the server then hands them 27001 and 27002. The three game ports are fixed:
+  haulnet-server has no setting for them, so players type the server's address without a port.</p>
 <table>
   <thead><tr><th>Port</th><th>Protocol</th><th>Purpose</th><th>Open to players</th></tr></thead>
   <tbody>
@@ -59,8 +60,8 @@ curl -fsSLO "$base/docker-compose.yml"
 curl -fsSLO "$base/haulnet-update" &amp;&amp; chmod +x haulnet-update
 curl -fsSL -o haulnet-server.env "$base/haulnet-server.env.example"
 nano haulnet-server.env        # set EXTERNAL_ADDRESS
-docker compose up -d
-docker compose logs -f</code></pre>
+sudo docker compose up -d
+sudo docker compose logs -f</code></pre>
 <p>The compose file uses host networking and the image <code>ghcr.io/haulnet/haulnet-server:latest</code>. To stay
   on one release, put its version without the <code>v</code>, for example <code>HAULNET_SERVER_TAG=0.1.4</code>,
   into a file named <code>.env</code> next to <code>docker-compose.yml</code>. If the server has a firewall, open the
@@ -99,6 +100,26 @@ sudo ufw allow 27080/tcp</code></pre>
       interval of at least 10 s, e.g. <code>60s</code>.</td></tr>
   </tbody>
 </table>
+
+<h2 id="day-to-day">Day-to-day</h2>
+<p><b>Stop, restart, remove.</b> With Docker, in the folder with <code>docker-compose.yml</code>:</p>
+<pre><code>sudo docker compose stop       # stop the server
+sudo docker compose restart    # restart it
+sudo docker compose down       # stop it and remove the container</code></pre>
+<p>With automatic updates on, the next update starts a stopped or removed server again; run
+  <code>sudo ./haulnet-update disable</code> first to keep it off. With systemd:</p>
+<pre><code>sudo systemctl stop haulnet-server
+sudo systemctl restart haulnet-server
+sudo systemctl disable --now haulnet-server    # stop it, no start at boot</code></pre>
+<p><b>A server at home, behind a router.</b> On the router, forward UDP 27000–27002 and TCP 27080 to the machine
+  that runs haulnet-server, and set <code>EXTERNAL_ADDRESS</code> to the router's public IPv4 address or a DNS name
+  that points to it. Players type that address into
+  <i>+ Server by address...</i>, and the friends they invite get it with the Steam invite. (This is a haulnet-server,
+  not <i>On my PC</i>, where the invite carries only the addresses of the PC itself.)</p>
+<p><b>A LAN party or a Radmin VPN network.</b> Set <code>EXTERNAL_ADDRESS</code> to the machine's address in that
+  network. haulnet-server logs a warning about the private address and runs.</p>
+<p><b>Docker without host networking</b> (for example Docker Desktop): remove <code>network_mode: host</code> from
+  <code>docker-compose.yml</code> and publish the ports instead; the lines are in the file as a comment.</p>
 
 <h2 id="updating">Updating</h2>
 <p>Each release pins one LuxonServer version. When R.E.P.O. changes its Photon version, a new release follows; an

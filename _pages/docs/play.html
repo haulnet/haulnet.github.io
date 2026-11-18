@@ -80,13 +80,16 @@
     <tr><td><code>[Hosting] Port</code></td><td>UDP port for “On my PC”; it uses this port and the next two.</td></tr>
     <tr><td><code>[Servers] Saved</code></td><td>Servers always listed on the region page, as
       <code>Name=host[:port]</code> separated by <code>;</code>, for example
-      <code>Dacha=play.example.org;Office=203.0.113.5:27100</code>.</td></tr>
+      <code>Dacha=play.example.org;Office=203.0.113.5</code>. Without a port, 27000 is used; a
+      <a href="/docs/server/#ports">haulnet-server</a> always listens there.</td></tr>
     <tr><td><code>[Servers] Recent</code></td><td>Filled automatically: servers you played on recently.</td></tr>
     <tr><td><code>[Servers] LastAddress</code></td><td>Filled automatically: the last address typed in
       <i>+ Server by address...</i> whose game opened.</td></tr>
     <tr><td><code>[Servers] LastTab</code></td><td>Filled automatically: the tab that opens first.</td></tr>
     <tr><td><code>[Servers] RegistryUrl</code></td><td>Empty uses the Haulnet list. A community can point it at its
-      own list in the same format: <code>https://</code>, <code>file:///</code>, or <code>http://localhost</code> for
-      a list on this PC (the game refuses plain <code>http://</code> to other hosts).</td></tr>
+      own list in the same format, the
+      <a href="https://github.com/haulnet/haulnet-servers#the-published-list">published list</a> of haulnet-servers
+      (schema version 1): <code>https://</code>, <code>file:///</code>, or <code>http://localhost</code> for a list
+      on this PC (the game refuses plain <code>http://</code> to other hosts).</td></tr>
   </tbody>
 </table>
