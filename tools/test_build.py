@@ -39,6 +39,7 @@ class ValuesTests(unittest.TestCase):
         self.assertIn("released 2026-12-01", v["status_line"])
         self.assertIn("v0.4.0", v["mod_badge"])
         self.assertIn("BepInEx/plugins", v["players_steps"])
+        self.assertIn(f'<a href="{build.BEPINEXPACK}">BepInExPack</a>', v["players_steps"])
 
     def test_values_are_escaped(self):
         listing = {"cities": {"x": "<script>"}}
@@ -177,6 +178,17 @@ class PagesTests(unittest.TestCase):
         self.assertEqual(meta, {"title": "A", "description": "B c"})
         self.assertEqual(body, "<h1>x</h1>\n")
 
+    def test_docs_nav_lists_pages_then_sections(self):
+        nav = build.docs_nav("play")
+        self.assertEqual(nav.count("<li>"), len(build.DOCS_NAV) + len(build.DOCS_NAV_SECTIONS))
+        self.assertEqual(nav.count('aria-current="page"'), 1)
+        self.assertIn('<a href="/docs/play/" aria-current="page">Play</a>', nav)
+        self.assertIn('<li><a href="/docs/#faq">Questions</a></li>', nav)
+        self.assertIn('<li><a href="/docs/#privacy">Privacy</a></li>', nav)
+        # On the page that holds the sections, the page itself is the current entry.
+        self.assertEqual(build.docs_nav("index").count('aria-current="page"'), 1)
+        self.assertIn('<a href="/docs/" aria-current="page">Overview</a>', build.docs_nav("index"))
+
     def test_docs_pages_and_internal_links(self):
         import re as _re
         with tempfile.TemporaryDirectory() as tmp:
@@ -188,6 +200,12 @@ class PagesTests(unittest.TestCase):
                 text = (out / path / "index.html").read_text(encoding="utf-8")
                 self.assertNotIn("{{", text, path)
                 self.assertIn(f'aria-current="page">{label}<', text, path)
+                # One current entry in the header and one in the docs navigation, never a section link.
+                self.assertEqual(text.count('aria-current="page"'), 2, path)
+                top = text[:text.index("</header>")]
+                key = "server" if name == "server" else "docs"
+                href = next(h for k, h, _ in build.SITE_NAV if k == key)
+                self.assertIn(f'<a href="{href}" aria-current="page">', top, path)
                 pages["/" + path] = text
             pages["/"] = (out / "index.html").read_text(encoding="utf-8")
             for source, text in pages.items():

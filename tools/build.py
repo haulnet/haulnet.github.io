@@ -52,6 +52,10 @@ SITE_NAV = (("docs", "/docs/", "Docs"), ("servers", "https://servers.haulnet.cc/
 # Documentation pages: _pages/docs/<name>.html → /docs/<name>/ (index.html → /docs/), in this navigation order.
 DOCS_NAV = (("index", "Overview"), ("install", "Install"), ("play", "Play"), ("server", "Run a server"),
             ("troubleshooting", "Troubleshooting"))
+# Sections of a documentation page with an entry of their own in the docs navigation, after the pages:
+# (page, id of the section, label). They are links only: the current page is the page that holds them.
+DOCS_NAV_SECTIONS = (("index", "faq", "Questions"), ("index", "privacy", "Privacy"))
+BEPINEXPACK = "https://thunderstore.io/c/repo/p/BepInEx/BepInExPack/"
 
 
 def get_json(url: str):
@@ -136,7 +140,7 @@ def values(facts: dict, now: datetime) -> dict[str, str]:
         status = f'Mod <a href="{e(mod["url"])}">v{e(mod["version"])}</a> · released {e(mod["date"])}'
         mod_badge = f'<a class="badge" href="{e(mod["url"])}"><span>mod</span>v{e(mod["version"])}</a>'
         players_steps = (
-            "<li>Install <b>BepInExPack</b> (BepInEx 5) for R.E.P.O.</li>"
+            f'<li>Install <a href="{BEPINEXPACK}">BepInExPack</a> (BepInEx 5) for R.E.P.O.</li>'
             f'<li>Download <a href="https://github.com/{MOD_REPO}/releases/latest/download/Haulnet.zip">Haulnet '
             f'v{e(mod["version"])}</a> and extract it into <code>BepInEx/plugins</code>.</li>'
             "<li>Start the game, open <b>Private game</b> or <b>Public game</b> and pick the <b>HAULNET</b> tab.</li>")
@@ -281,12 +285,17 @@ def wrap_tables(text: str) -> str:
     return text.replace("<table>", '<div class="table-wrap"><table>').replace("</table>", "</table></div>")
 
 
+def docs_href(name: str) -> str:
+    return "/docs/" if name == "index" else f"/docs/{name}/"
+
+
 def docs_nav(current: str) -> str:
     items = []
     for name, label in DOCS_NAV:
-        href = "/docs/" if name == "index" else f"/docs/{name}/"
         attr = ' aria-current="page"' if name == current else ""
-        items.append(f'<li><a href="{href}"{attr}>{html.escape(label)}</a></li>')
+        items.append(f'<li><a href="{docs_href(name)}"{attr}>{html.escape(label)}</a></li>')
+    for name, anchor, label in DOCS_NAV_SECTIONS:
+        items.append(f'<li><a href="{docs_href(name)}#{anchor}">{html.escape(label)}</a></li>')
     return "\n".join(items)
 
 
