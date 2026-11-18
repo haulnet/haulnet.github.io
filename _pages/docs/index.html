@@ -45,10 +45,10 @@
   <li>Haulnet sends no telemetry. It downloads the public server list, reads the servers' uptime from the Haulnet
     server monitor (<code>monitor.haulnet.cc</code>), pings the listed servers and asks them for their status (counts
     and versions only).</li>
-  <li>Whoever runs the server of a game sees the players' IP addresses and Steam IDs. The game also sends the server
-    the Steam sign-in ticket it normally sends to its own online service; a Haulnet server does not need it and does
-    not check it. On your PC the server is yours; on a listed server it is its operator's, named in the list. Play on
-    servers whose operator you trust.</li>
+  <li>Whoever runs the server of a game sees the players' IP addresses and Steam IDs. The game makes a Steam sign-in
+    ticket for its own online service; since version 0.4.3 Haulnet does not pass it on to a Haulnet server. On your PC
+    the server is yours; on a listed server it is its operator's, named in the list. Play on servers whose operator
+    you trust.</li>
   <li>Official Haulnet servers keep a technical log with connection times, IP addresses and Steam IDs, at most 30 MB
     per server; older lines are overwritten. It is used only to run the servers and is not shared. Questions and
     requests: <a href="mailto:contact@haulnet.cc">contact@haulnet.cc</a>.</li>
