@@ -14,15 +14,26 @@
 
 <h2 id="manual">By hand</h2>
 <ol class="steps">
-  <li>Install <a href="https://thunderstore.io/c/repo/p/BepInEx/BepInExPack/">BepInExPack</a> into the game folder and
-    start the game once, so BepInEx creates its folders.</li>
-  <li>Download the release zip and extract it into <code>REPO/BepInEx/plugins</code>. You get
+  <li><b>Find the game folder.</b> In Steam, open <i>Library</i>, right-click R.E.P.O. and choose
+    <i>Manage → Browse local files</i>. The folder that opens contains <code>REPO.exe</code>.</li>
+  <li><b>Put BepInExPack into it.</b> On the
+    <a href="https://thunderstore.io/c/repo/p/BepInEx/BepInExPack/">BepInExPack</a> page, press <i>Download</i> and
+    open the zip. Copy everything inside its <code>BepInExPack</code> folder (<code>winhttp.dll</code>,
+    <code>doorstop_config.ini</code>, the <code>BepInEx</code> folder) into the game folder, next to
+    <code>REPO.exe</code>.</li>
+  <li><b>Start the game once and close it.</b> BepInEx creates its folders: the game folder now has
+    <code>BepInEx/plugins</code> and <code>BepInEx/LogOutput.log</code>.</li>
+  <li><b>Add Haulnet.</b> Download the release zip and extract it into <code>BepInEx/plugins</code>. You get
     <code>BepInEx/plugins/Haulnet/Haulnet.dll</code> and <code>BepInEx/plugins/Haulnet/server/luxon_server.exe</code>;
     keep the <code>server</code> folder next to the DLL.</li>
-  <li>Start the game. <code>BepInEx/LogOutput.log</code> contains a line like
-    <code>[Info   :   Haulnet] Haulnet <i>version</i> loaded.</code></li>
+  <li><b>Start the game.</b> <code>BepInEx/LogOutput.log</code> contains a line like
+    <code>[Info   :   Haulnet] Haulnet <i>version</i> loaded.</code> and the region page has a HAULNET tab. If the
+    line or the tab is missing, see <a href="/docs/troubleshooting/#no-tab">No HAULNET tab</a>.</li>
 </ol>
 <p class="actions">{{manual_download}}</p>
+<p>If you already play with mods through a mod manager, the plugins of that profile are not in the game folder. Put
+  the <code>Haulnet</code> folder into that profile's <code>BepInEx/plugins</code> instead; the manager has a command
+  that opens the profile folder.</p>
 
 <h2 id="windows-firewall">First start: Windows Firewall</h2>
 <p>The first time you host “On my PC”, Windows may ask whether <code>luxon_server</code> and R.E.P.O. may use the
@@ -35,12 +46,16 @@
   <li><b>Remove:</b> delete <code>BepInEx/plugins/Haulnet</code>. Settings stay in
     <code>BepInEx/config/haulnet.repo.cfg</code> and the cached server list in <code>BepInEx/cache/Haulnet</code>
     until you delete them.</li>
+  <li><b>Remove BepInEx too:</b> delete the <code>BepInEx</code> folder, <code>winhttp.dll</code>,
+    <code>doorstop_config.ini</code> and <code>.doorstop_version</code> from the game folder; this removes every
+    BepInEx mod and its settings.</li>
   <li>With Haulnet removed, the game is exactly as before. Haulnet never changes game files or system settings.</li>
 </ul>
 
 <h2 id="source">From source</h2>
 <p>For developers and testers. You need the game with BepInEx 5, the
-  <a href="https://dotnet.microsoft.com/download">.NET SDK</a> 8 or newer, and internet access for the first build.</p>
+  <a href="https://dotnet.microsoft.com/download/dotnet/8.0">.NET SDK</a> 8.0, and internet access for the first
+  build.</p>
 <ol>
   <li>Clone <a href="https://github.com/haulnet/haulnet-repo">haulnet/haulnet-repo</a>.</li>
   <li>Copy <code>mod/Directory.Build.user.props.example</code> to <code>mod/Directory.Build.user.props</code> and set
