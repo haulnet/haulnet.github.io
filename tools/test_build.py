@@ -25,9 +25,11 @@ class ValuesTests(unittest.TestCase):
         self.assertIn("Free and open source", v["status_line"])
         self.assertIn("server <a", v["status_line"])
         self.assertIn("from source", v["mod_badge"])
-        self.assertIn("Watch", v["players_steps"])
+        self.assertIn(build.THUNDERSTORE, v["players_steps"])
+        self.assertIn("/docs/install/#source", v["players_steps"])
         self.assertIn("#source", v["release_note"])
         self.assertIn("/docs/install/", v["release_note_short"])
+        self.assertIn('aria-disabled="true"', v["manual_download"])
         self.assertEqual(v["built_at"], "2026-11-14 12:00 UTC")
         self.assertIn("&quot;europe-moscow-1&quot;:&quot;Moscow&quot;", v["cities_json"])
 
@@ -40,6 +42,9 @@ class ValuesTests(unittest.TestCase):
         self.assertIn("v0.4.0", v["mod_badge"])
         self.assertIn("BepInEx/plugins", v["players_steps"])
         self.assertIn(f'<a href="{build.BEPINEXPACK}">BepInExPack</a>', v["players_steps"])
+        self.assertIn(f'<a href="{build.THUNDERSTORE}">Thunderstore</a>', v["players_steps"])
+        self.assertIn("/releases/latest/download/Haulnet.zip", v["manual_download"])
+        self.assertIn("The latest GitHub release", v["release_note"])
 
     def test_values_are_escaped(self):
         listing = {"cities": {"x": "<script>"}}

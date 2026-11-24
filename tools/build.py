@@ -56,6 +56,7 @@ DOCS_NAV = (("index", "Overview"), ("install", "Install"), ("play", "Play"), ("s
 # (page, id of the section, label). They are links only: the current page is the page that holds them.
 DOCS_NAV_SECTIONS = (("index", "faq", "Questions"), ("index", "privacy", "Privacy"))
 BEPINEXPACK = "https://thunderstore.io/c/repo/p/BepInEx/BepInExPack/"
+THUNDERSTORE = "https://thunderstore.io/c/repo/p/Haulnet/Haulnet/"
 
 
 def get_json(url: str):
@@ -136,34 +137,30 @@ def values(facts: dict, now: datetime) -> dict[str, str]:
     e = html.escape
     mod, server, listing = facts["mod"], facts["server"], facts["list"]
     releases = f"https://github.com/{MOD_REPO}/releases"
+    manual_url = f"{releases}/latest/download/Haulnet.zip"
+    manager_install = f'Install Haulnet from <a href="{THUNDERSTORE}">Thunderstore</a> with a mod manager'
+    launch = ('<li>Start R.E.P.O. Use <b>Start modded</b> if you installed with r2modman.</li>'
+              '<li>Choose <b>Private game</b>, confirm <b>Create game</b> and open the <b>HAULNET</b> tab.</li>')
     if mod:
         status = f'Mod <a href="{e(mod["url"])}">v{e(mod["version"])}</a> · released {e(mod["date"])}'
         mod_badge = f'<a class="badge" href="{e(mod["url"])}"><span>mod</span>v{e(mod["version"])}</a>'
         players_steps = (
-            f'<li>Install <a href="{BEPINEXPACK}">BepInExPack</a> (BepInEx 5) for R.E.P.O.</li>'
-            f'<li>Download <a href="https://github.com/{MOD_REPO}/releases/latest/download/Haulnet.zip">Haulnet '
-            f'v{e(mod["version"])}</a> and extract it into <code>BepInEx/plugins</code>.</li>'
-            "<li>Start the game, open <b>Private game</b> or <b>Public game</b> and pick the <b>HAULNET</b> tab.</li>")
-        release_note = (f'The latest release is <a href="{e(mod["url"])}">Haulnet v{e(mod["version"])}</a> '
+            f'<li>{manager_install}, or install <a href="{BEPINEXPACK}">BepInExPack</a> and extract '
+            f'<a href="{manual_url}">Haulnet.zip from GitHub</a> into '
+            f'<code>BepInEx/plugins</code>.</li>{launch}')
+        release_note = (f'The latest GitHub release is <a href="{e(mod["url"])}">Haulnet v{e(mod["version"])}</a> '
                         f'({e(mod["date"])}).')
         release_note_short = release_note
-        manual_download = (f'<a class="button" href="https://github.com/{MOD_REPO}/releases/latest/download/Haulnet.zip">'
-                           f'Download Haulnet v{e(mod["version"])}</a>')
+        manual_download = f'<a class="button" href="{manual_url}">Download Haulnet.zip from GitHub</a>'
     else:
         status = "Free and open source"
         mod_badge = '<span class="badge"><span>mod</span>from source</span>'
         players_steps = (
-            f'<li>Packaged downloads are published on <a href="{releases}">GitHub</a> (<i>Watch → Custom → '
-            'Releases</i> tells you when); until the first one, build Haulnet <a href="/docs/install/#source">from '
-            "source</a>.</li>"
-            "<li>Install it with <b>BepInExPack</b> (BepInEx 5), its only dependency: "
-            '<a href="/docs/install/">Install</a>.</li>'
-            "<li>In the game: <b>Private game</b> or <b>Public game</b> → the <b>HAULNET</b> tab.</li>")
-        release_note = ('Until the first packaged download is published, Haulnet is built <a href="#source">from '
-                        "source</a>; this page shows the download by itself as soon as it is out.")
-        release_note_short = ("Releases are published on GitHub; until the first one, Haulnet is built from source "
-                              '(<a href="/docs/install/">Install</a>).')
-        manual_download = '<span class="button disabled" aria-disabled="true">Download not published yet</span>'
+            f'<li>{manager_install}, or build Haulnet <a href="/docs/install/#source">from source</a>.</li>{launch}')
+        release_note = ('GitHub has no packaged release yet. You can use a mod manager or build Haulnet '
+                        '<a href="#source">from source</a>.')
+        release_note_short = 'See the <a href="/docs/install/">installation guide</a> for available packages.'
+        manual_download = '<span class="button disabled" aria-disabled="true">GitHub download not published yet</span>'
     if server:
         status += f' · server <a href="{e(server["url"])}">v{e(server["version"])}</a>'
         server_badge = f'<a class="badge" href="{e(server["url"])}"><span>server</span>v{e(server["version"])}</a>'
@@ -185,6 +182,7 @@ def values(facts: dict, now: datetime) -> dict[str, str]:
         "row_updating": e(strings.get("ROW.UPDATING", "ROW.UPDATING")),
         "row_checking": e(strings.get("ROW.CHECKING", "ROW.CHECKING")),
         "manual_download": manual_download,
+        "thunderstore_url": THUNDERSTORE,
         "status_line": status,
         "mod_badge": mod_badge,
         "server_badge": server_badge,

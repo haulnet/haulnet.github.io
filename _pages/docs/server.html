@@ -28,8 +28,8 @@
 <h2 id="requirements">Requirements</h2>
 <ul>
   <li>Linux x86-64 (Docker or plain systemd) or Windows x64.</li>
-  <li>A public IPv4 address; UDP not filtered by the provider. IPv6 works too, but an IPv6-only server is not
-    enough: most players have no IPv6 (in Russia about nine in ten).</li>
+  <li>For the public list, a stable public IPv4 address and a provider that allows inbound UDP. For a private
+    server, use an address that your players can reach, such as the server's LAN or VPN address.</li>
   <li>Bandwidth: roughly 2–4 Mbit/s outgoing per 6-player game; an
     unmetered port of 100 Mbit/s or more and DDoS protection that covers UDP are recommended for public servers.</li>
   <li>CPU and memory are modest: LuxonServer is a single-threaded C++ program.</li>
@@ -77,7 +77,9 @@ sudo ufw allow 27080/tcp</code></pre>
     <code>haulnetd</code>, <code>luxon_server</code> and a systemd unit that runs as a dynamic unprivileged user on a
     read-only system. Install steps:
     <a href="https://github.com/haulnet/haulnet-server#run-with-systemd-no-docker">README</a>.</li>
-  <li><b>Windows:</b> unzip the release zip, run <code>start.bat</code> once (it creates
+  <li><b>Windows:</b> download <code>haulnet-server-<i>version</i>-windows-x86_64.zip</code> and
+    <code>SHA256SUMS</code> from the <a href="https://github.com/haulnet/haulnet-server/releases/latest">release</a>.
+    Check the ZIP's SHA-256 with <code>Get-FileHash</code> in PowerShell, then extract it. Run <code>start.bat</code> once (it creates
     <code>haulnet-server.env</code>), set <code>EXTERNAL_ADDRESS</code> there and run <code>start.bat</code> again.
     Allow <code>luxon_server.exe</code> (UDP) and <code>haulnetd.exe</code> (TCP 27080) in Windows Firewall. Stop the
     server by closing its console window.</li>
@@ -88,7 +90,7 @@ sudo ufw allow 27080/tcp</code></pre>
 <table>
   <thead><tr><th>Variable</th><th>Default</th><th>Meaning</th></tr></thead>
   <tbody>
-    <tr><td><code>EXTERNAL_ADDRESS</code></td><td>— (required)</td><td>Public IP or DNS name players use to reach
+    <tr><td><code>EXTERNAL_ADDRESS</code></td><td>— (required)</td><td>IP address or DNS name players use to reach
       this server. No port, no scheme.</td></tr>
     <tr><td><code>SERVER_NAME</code></td><td><code>haulnet-server</code></td><td>Name in the status endpoint and logs.</td></tr>
     <tr><td><code>MAX_ROOMS</code>, <code>MAX_PLAYERS</code></td><td>not set</td><td>Soft limits: Haulnet starts no
