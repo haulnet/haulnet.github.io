@@ -139,20 +139,19 @@ def values(facts: dict, now: datetime) -> dict[str, str]:
     releases = f"https://github.com/{MOD_REPO}/releases"
     manual_url = f"{releases}/latest/download/Haulnet.zip"
     manager_install = f'Install Haulnet from <a href="{THUNDERSTORE}">Thunderstore</a> with a mod manager'
-    launch = ('<li>Start R.E.P.O. with mods enabled.</li>'
-              '<li>Open <b>Private game</b> or <b>Public game</b> and pick the <b>HAULNET</b> tab.</li>')
+    launch = ('<li>Start R.E.P.O. Use <b>Start modded</b> if you installed with r2modman.</li>'
+              '<li>Choose <b>Private game</b>, confirm <b>Create game</b> and open the <b>HAULNET</b> tab.</li>')
     if mod:
         status = f'Mod <a href="{e(mod["url"])}">v{e(mod["version"])}</a> · released {e(mod["date"])}'
         mod_badge = f'<a class="badge" href="{e(mod["url"])}"><span>mod</span>v{e(mod["version"])}</a>'
         players_steps = (
             f'<li>{manager_install}, or install <a href="{BEPINEXPACK}">BepInExPack</a> and extract '
-            f'<a href="{manual_url}">Haulnet v{e(mod["version"])} from GitHub</a> into '
+            f'<a href="{manual_url}">Haulnet.zip from GitHub</a> into '
             f'<code>BepInEx/plugins</code>.</li>{launch}')
         release_note = (f'The latest GitHub release is <a href="{e(mod["url"])}">Haulnet v{e(mod["version"])}</a> '
                         f'({e(mod["date"])}).')
         release_note_short = release_note
-        manual_download = (f'<a class="button" href="{manual_url}">'
-                           f'Download Haulnet v{e(mod["version"])} from GitHub</a>')
+        manual_download = f'<a class="button" href="{manual_url}">Download Haulnet.zip from GitHub</a>'
     else:
         status = "Free and open source"
         mod_badge = '<span class="badge"><span>mod</span>from source</span>'

@@ -84,11 +84,9 @@
   <dt id="rejoin">My friend cannot rejoin during a level.</dt>
   <dd>That is the game's own rule: joining works in the lobby, not while a level runs, with or without Haulnet.</dd>
   <dt id="game-update">The game was updated. What happens to Haulnet?</dt>
-  <dd>If Haulnet does not recognise the new version, it switches itself off and you play through Photon Cloud as
-    usual until a Haulnet update comes out. The message
-    <a href="/docs/troubleshooting/#incompatible">HAULNET IS OFF</a> says so. When the update changed the part of the
-    game that Haulnet redirects, there is no message: the HAULNET tab is absent and
-    <code>BepInEx/LogOutput.log</code> says why (<a href="/docs/troubleshooting/#no-tab">No HAULNET tab</a>).</dd>
+  <dd>If an update breaks Haulnet's region menu or connection hooks, the game can still use Photon Cloud.
+    If you see <a href="/docs/troubleshooting/#incompatible">HAULNET IS OFF</a> or the tab is missing, check
+    for a Haulnet update and see <a href="/docs/troubleshooting/#no-tab">No HAULNET tab</a>.</dd>
   <dt id="ping">Which city should I pick?</dt>
   <dd>The one with the lowest ping. Ping depends on your provider's route, not on distance: a player in Siberia
     measured a lower ping to Moscow than to Novosibirsk. Haulnet orders cities by your measured ping and their

@@ -58,9 +58,8 @@
     the game again), create or join the game again.</p>
 <!-- /msg -->
 <!-- msg: INCOMPATIBLE id=incompatible -->
-  <p>The game was updated and Haulnet switched itself off instead of risking a broken game. Photon Cloud games keep
-    working. Look for a Haulnet update; if invites to Haulnet games stop working after a game update, update
-    Haulnet too.</p>
+  <p>Haulnet could not attach to the region menu. A game update can cause this. Photon Cloud games keep working.
+    Check for a Haulnet update.</p>
   <p>This message does not appear in every case. When the update changed the part of the game that Haulnet
     redirects, Haulnet switches itself off without a message: the HAULNET tab is absent, and
     <code>BepInEx/LogOutput.log</code> says why (<a href="#no-tab">No HAULNET tab</a>).</p>
@@ -119,10 +118,11 @@
 
 <h2 id="no-message">Problems without a message</h2>
 <dl class="faq">
-  <dt id="no-tab">No HAULNET tab: the mod did not load</dt>
+  <dt id="no-tab">No HAULNET tab</dt>
   <dd>
-    <p>If you use a mod manager, check that Haulnet is enabled in your R.E.P.O. profile and launch the game in
-      modded mode from the manager. Open the profile folder from the manager to find its logs.</p>
+    <p>In r2modman, check that Haulnet is enabled under <b>Installed</b> and use <b>Start modded</b>.
+      To find the log, go to <b>Settings</b> → <b>Directories</b> and click <b>Browse</b> next to
+      <b>Profile folder</b>.</p>
     <p>Open <code>BepInEx/LogOutput.log</code> in your profile folder (mod manager) or the game folder (manual
       install) and look for the line
       <code>[Info   :   Haulnet] Haulnet <i>version</i> loaded.</code></p>
@@ -131,9 +131,8 @@
         (<a href="/docs/install/">Install</a>).</li>
       <li><b>The log has no Haulnet lines:</b> reinstall Haulnet in the manager. For a manual install, check for
         <code>BepInEx/plugins/Haulnet/Haulnet.dll</code>, with the <code>server</code> folder next to it.</li>
-      <li><b>The log has a Haulnet line that starts with <code>Could not install patches</code>:</b> the game was
-        updated and Haulnet switched itself off without a message. Photon Cloud games keep working; look for a
-        Haulnet update.</li>
+      <li><b>The log has a Haulnet line that starts with <code>Could not install patches</code>:</b> Haulnet could not
+        attach to the game's connection code. Photon Cloud games keep working. Check for a Haulnet update.</li>
     </ul>
     <p>With the line in the log, Haulnet is loaded; if the tab is still absent, see
       <a href="#incompatible">HAULNET IS OFF</a>.</p>
@@ -152,8 +151,8 @@
     <code>[Info   :   Haulnet] …</code>); the game's own log is <code>Player.log</code> in
     <code>%USERPROFILE%\AppData\LocalLow\semiwork\Repo</code>.</li>
   <li>Report problems on <a href="https://github.com/haulnet/haulnet-repo/issues">GitHub</a> with the game version,
-    the Haulnet version, what you did and the message you saw. Logs contain IP addresses: remove them or send the log
-    privately to <a href="mailto:contact@haulnet.cc">contact@haulnet.cc</a>.</li>
+    the Haulnet version, what you did and the message you saw. Remove IP addresses and Steam IDs before posting
+    logs, or send the log privately to <a href="mailto:contact@haulnet.cc">contact@haulnet.cc</a>.</li>
   <li>A problem with a listed server goes to the
     <a href="https://github.com/haulnet/haulnet-servers/issues/new/choose">server list</a>.</li>
   <li>Security problems: privately, through GitHub's
