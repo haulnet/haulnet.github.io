@@ -121,12 +121,15 @@
 <dl class="faq">
   <dt id="no-tab">No HAULNET tab: the mod did not load</dt>
   <dd>
-    <p>Open <code>BepInEx/LogOutput.log</code> in the game folder and look for the line
+    <p>If you use a mod manager, check that Haulnet is enabled in your R.E.P.O. profile and launch the game in
+      modded mode from the manager. Open the profile folder from the manager to find its logs.</p>
+    <p>Open <code>BepInEx/LogOutput.log</code> in your profile folder (mod manager) or the game folder (manual
+      install) and look for the line
       <code>[Info   :   Haulnet] Haulnet <i>version</i> loaded.</code></p>
     <ul>
-      <li><b>There is no <code>LogOutput.log</code>:</b> BepInExPack is not installed in the game folder. Install it
-        and start the game once (<a href="/docs/install/#manual">Install</a>).</li>
-      <li><b>The log has no Haulnet lines:</b> the Haulnet folder is in the wrong place. It must be
+      <li><b>There is no <code>LogOutput.log</code>:</b> check that BepInExPack is installed and start the game once
+        (<a href="/docs/install/">Install</a>).</li>
+      <li><b>The log has no Haulnet lines:</b> reinstall Haulnet in the manager. For a manual install, check for
         <code>BepInEx/plugins/Haulnet/Haulnet.dll</code>, with the <code>server</code> folder next to it.</li>
       <li><b>The log has a Haulnet line that starts with <code>Could not install patches</code>:</b> the game was
         updated and Haulnet switched itself off without a message. Photon Cloud games keep working; look for a
@@ -144,7 +147,8 @@
 
 <h2 id="logs">Logs and reporting a problem</h2>
 <ul>
-  <li>Haulnet writes to <code>BepInEx/LogOutput.log</code> in the game folder (its lines look like
+  <li>Haulnet writes to <code>BepInEx/LogOutput.log</code> in the mod manager's profile folder or the game folder
+    (its lines look like
     <code>[Info   :   Haulnet] …</code>); the game's own log is <code>Player.log</code> in
     <code>%USERPROFILE%\AppData\LocalLow\semiwork\Repo</code>.</li>
   <li>Report problems on <a href="https://github.com/haulnet/haulnet-repo/issues">GitHub</a> with the game version,

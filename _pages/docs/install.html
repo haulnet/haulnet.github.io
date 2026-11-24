@@ -1,7 +1,8 @@
 <!-- title: Install -->
-<!-- description: Install Haulnet for R.E.P.O.: requirements, manual install, building from source, Windows Firewall, updating and removing. -->
+<!-- description: Install Haulnet for R.E.P.O. through Thunderstore with a mod manager or by hand from GitHub Releases. -->
 <h1>Install</h1>
 <p class="lead">{{release_note}}</p>
+<p><a href="#mod-manager">Use a mod manager</a> · <a href="#manual">Install by hand</a></p>
 
 <h2 id="requirements">Requirements</h2>
 <ul>
@@ -12,7 +13,19 @@
   <li>Hosting “On my PC” runs a small Windows server program next to the game; joining needs nothing extra.</li>
 </ul>
 
-<h2 id="manual">By hand</h2>
+<h2 id="mod-manager">With a mod manager</h2>
+<ol class="steps">
+  <li>Open your R.E.P.O. profile in a mod manager such as r2modman or Gale.</li>
+  <li>Install <b>Haulnet</b> by the <b>Haulnet</b> team from Thunderstore. The manager also installs BepInExPack.</li>
+  <li>Start R.E.P.O. in modded mode from the manager. Look for the <b>HAULNET</b> tab on the region page.</li>
+</ol>
+<p class="actions"><a class="button" href="{{thunderstore_url}}">Haulnet on Thunderstore</a></p>
+<p>Thunderstore may carry an earlier version. For the latest release, use
+  <a href="https://github.com/haulnet/haulnet-repo/releases/latest">GitHub Releases</a>.
+  To install that release through a manager, download <code>Haulnet-&lt;version&gt;-thunderstore.zip</code> and use
+  the manager's <i>Import local mod</i> option.</p>
+
+<h2 id="manual">By hand from GitHub</h2>
 <ol class="steps">
   <li><b>Find the game folder.</b> In Steam, open <i>Library</i>, right-click R.E.P.O. and choose
     <i>Manage → Browse local files</i>. The folder that opens contains <code>REPO.exe</code>.</li>
@@ -23,7 +36,8 @@
     <code>REPO.exe</code>.</li>
   <li><b>Start the game once and close it.</b> BepInEx creates its folders: the game folder now has
     <code>BepInEx/plugins</code> and <code>BepInEx/LogOutput.log</code>.</li>
-  <li><b>Add Haulnet.</b> Download the release zip and extract it into <code>BepInEx/plugins</code>. You get
+  <li><b>Add Haulnet.</b> Download <code>Haulnet.zip</code> from GitHub and extract it into <code>BepInEx/plugins</code>.
+    You get
     <code>BepInEx/plugins/Haulnet/Haulnet.dll</code> and <code>BepInEx/plugins/Haulnet/server/luxon_server.exe</code>;
     keep the <code>server</code> folder next to the DLL.</li>
   <li><b>Start the game.</b> <code>BepInEx/LogOutput.log</code> contains a line like
@@ -31,9 +45,6 @@
     line or the tab is missing, see <a href="/docs/troubleshooting/#no-tab">No HAULNET tab</a>.</li>
 </ol>
 <p class="actions">{{manual_download}}</p>
-<p>If you already play with mods through a mod manager, the plugins of that profile are not in the game folder. Put
-  the <code>Haulnet</code> folder into that profile's <code>BepInEx/plugins</code> instead; the manager has a command
-  that opens the profile folder.</p>
 
 <h2 id="windows-firewall">First start: Windows Firewall</h2>
 <p>The first time you host “On my PC”, Windows may ask whether <code>luxon_server</code> and R.E.P.O. may use the
@@ -41,6 +52,8 @@
   friends get no answer from your PC.</p>
 
 <h2 id="update">Update and remove</h2>
+<p>For a mod-manager install, update, disable or remove Haulnet in the same R.E.P.O. profile in your manager.</p>
+<p>For a manual install:</p>
 <ul>
   <li><b>Update:</b> replace the <code>BepInEx/plugins/Haulnet</code> folder with the new one.</li>
   <li><b>Remove:</b> delete <code>BepInEx/plugins/Haulnet</code>. Settings stay in

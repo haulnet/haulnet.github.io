@@ -2,7 +2,9 @@
 
 Source of [haulnet.cc](https://haulnet.cc/), the home page of Haulnet, served by GitHub Pages from `main`.
 
-Looking for the mod itself? It lives in [haulnet-repo](https://github.com/haulnet/haulnet-repo).
+Install the mod through [Thunderstore](https://thunderstore.io/c/repo/p/Haulnet/Haulnet/) or get the latest version
+from [GitHub Releases](https://github.com/haulnet/haulnet-repo/releases/latest). The mod source lives in
+[haulnet-repo](https://github.com/haulnet/haulnet-repo).
 
 Plain HTML and CSS with a small build step, no framework:
 
