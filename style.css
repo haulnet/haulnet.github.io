@@ -141,6 +141,31 @@ main { display: block; }
 .table-wrap { margin: var(--s4) 0 var(--s5); overflow-x: auto; }
 .doc table { width: 100%; border-collapse: collapse; font-size: 15.5px; }
 .doc :not(pre) > code { overflow-wrap: anywhere; }
+.code-block {
+  margin: var(--s4) 0; border: 1px solid var(--line); border-radius: var(--r2);
+  background: var(--pre-bg); color: var(--pre-fg); color-scheme: dark;
+}
+.code-toolbar {
+  display: flex; align-items: center; justify-content: flex-end; gap: var(--s3);
+  padding: var(--s2) var(--s3); border-bottom: 1px solid #2c3642;
+}
+.code-copy-status { color: #b5c3d4; font-size: .875rem; line-height: 1.3; }
+.code-copy {
+  --copy-bg: #1b2430;
+  display: inline-flex; flex: none; align-items: center; gap: var(--s2);
+  min-height: 34px; padding: var(--s1) var(--s3); border: 1px solid #435062; border-radius: var(--r1);
+  background: var(--copy-bg); color: inherit; font: inherit; font-size: .875rem; font-weight: 600; cursor: pointer;
+}
+.code-copy:hover { --copy-bg: #2c3949; }
+.code-copy::before {
+  content: ""; width: 10px; height: 11px; margin-right: 3px; border: 1px solid currentColor; border-radius: 2px;
+  box-shadow: 1px -1px var(--copy-bg), 2px -2px currentColor;
+}
+.code-block pre { margin: 0; border: 0; border-radius: 0 0 calc(var(--r2) - 1px) calc(var(--r2) - 1px); }
+.doc pre .code-command { color: #f6ada9; }
+.doc pre .code-option { color: #a8cdfa; }
+.doc pre .code-value { color: #b8daa6; }
+.doc pre .code-comment { color: #9eafc3; }
 .doc th, .doc td { text-align: left; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--line); }
 .doc th { font-size: 13px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
 .doc .cards { margin: var(--s5) 0; }

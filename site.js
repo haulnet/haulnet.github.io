@@ -89,3 +89,44 @@
   load();
   setInterval(() => { if (!document.hidden) load(); }, 60000);
 })();
+
+// Keep the controls outside the <pre> so they stay visible when a long line scrolls.
+(() => {
+  "use strict";
+
+  for (const code of document.querySelectorAll(".doc pre > code:only-child")) {
+    const pre = code.parentElement;
+    const block = document.createElement("div");
+    block.className = "code-block";
+
+    const toolbar = document.createElement("div");
+    toolbar.className = "code-toolbar";
+    const status = document.createElement("span");
+    status.className = "code-copy-status";
+    status.setAttribute("role", "status");
+
+    const button = document.createElement("button");
+    button.className = "code-copy";
+    button.type = "button";
+    button.setAttribute("aria-label", "Copy code");
+    button.textContent = "Copy";
+
+    let resetStatus;
+    button.addEventListener("click", async () => {
+      clearTimeout(resetStatus);
+      status.textContent = "";
+      try {
+        await navigator.clipboard.writeText(code.textContent);
+      } catch {
+        status.textContent = "Select the code to copy it manually.";
+        return;
+      }
+      status.textContent = "Copied to clipboard";
+      resetStatus = setTimeout(() => { status.textContent = ""; }, 2500);
+    });
+
+    toolbar.append(status, button);
+    pre.before(block);
+    block.append(toolbar, pre);
+  }
+})();

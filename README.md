@@ -20,9 +20,9 @@ Plain HTML and CSS with a small build step, no framework:
   explanation on the page.
 - Styles: [`base.css`](base.css) holds the look shared with servers.haulnet.cc (haulnet-servers keeps an identical
   copy in `pages/base.css`); [`style.css`](style.css) holds the rules of this site only.
-- One script, [`live.js`](live.js), shows live numbers from the Haulnet server monitor `monitor.haulnet.cc` and reads
-  the server list itself, so a new server or city appears without a rebuild (the build's copy is only the fallback);
-  the page is complete without it. No cookies, no analytics, nothing from other sites.
+- [`site.js`](site.js) shows live numbers on the home page by reading the Haulnet server list and monitor.
+  On documentation pages it adds a Copy button to each `<pre><code>` block. Use the `code-command`, `code-option`,
+  `code-value` and `code-comment` span classes for syntax colors in examples.
 - Logo, icons and artwork follow the Haulnet brand (original SVG, no game art).
 
 Preview locally:

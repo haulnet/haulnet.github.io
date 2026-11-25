@@ -54,20 +54,20 @@
 <h2 id="docker">Docker</h2>
 <p>Install <a href="https://docs.docker.com/engine/install/">Docker Engine</a> with its compose plugin first. The
   commands below use <code>sudo</code>; as root, leave it out.</p>
-<pre><code>mkdir haulnet-server &amp;&amp; cd haulnet-server
+<pre><code><span class="code-command">mkdir</span> haulnet-server &amp;&amp; <span class="code-command">cd</span> haulnet-server
 base=https://github.com/haulnet/haulnet-server/releases/latest/download
-curl -fsSLO "$base/docker-compose.yml"
-curl -fsSLO "$base/haulnet-update" &amp;&amp; chmod +x haulnet-update
-curl -fsSL -o haulnet-server.env "$base/haulnet-server.env.example"
-nano haulnet-server.env        # set EXTERNAL_ADDRESS
-sudo docker compose up -d
-sudo docker compose logs -f</code></pre>
+<span class="code-command">curl</span> <span class="code-option">-fsSLO</span> <span class="code-value">"$base/docker-compose.yml"</span>
+<span class="code-command">curl</span> <span class="code-option">-fsSLO</span> <span class="code-value">"$base/haulnet-update"</span> &amp;&amp; <span class="code-command">chmod</span> +x haulnet-update
+<span class="code-command">curl</span> <span class="code-option">-fsSL -o</span> haulnet-server.env <span class="code-value">"$base/haulnet-server.env.example"</span>
+<span class="code-command">nano</span> haulnet-server.env        <span class="code-comment"># set EXTERNAL_ADDRESS</span>
+sudo <span class="code-command">docker compose</span> up <span class="code-option">-d</span>
+sudo <span class="code-command">docker compose</span> logs <span class="code-option">-f</span></code></pre>
 <p>The compose file uses host networking and the image <code>ghcr.io/haulnet/haulnet-server:latest</code>. To stay
   on one release, put its version without the <code>v</code>, for example <code>HAULNET_SERVER_TAG=0.1.4</code>,
   into a file named <code>.env</code> next to <code>docker-compose.yml</code>. If the server has a firewall, open the
   ports, for example with ufw:</p>
-<pre><code>sudo ufw allow 27000:27002/udp
-sudo ufw allow 27080/tcp</code></pre>
+<pre><code>sudo <span class="code-command">ufw</span> allow 27000:27002/udp
+sudo <span class="code-command">ufw</span> allow 27080/tcp</code></pre>
 
 <h2 id="no-docker">Without Docker</h2>
 <ul>
@@ -105,14 +105,14 @@ sudo ufw allow 27080/tcp</code></pre>
 
 <h2 id="day-to-day">Day-to-day</h2>
 <p><b>Stop, restart, remove.</b> With Docker, in the folder with <code>docker-compose.yml</code>:</p>
-<pre><code>sudo docker compose stop       # stop the server
-sudo docker compose restart    # restart it
-sudo docker compose down       # stop it and remove the container</code></pre>
+<pre><code>sudo <span class="code-command">docker compose</span> stop       <span class="code-comment"># stop the server</span>
+sudo <span class="code-command">docker compose</span> restart    <span class="code-comment"># restart it</span>
+sudo <span class="code-command">docker compose</span> down       <span class="code-comment"># stop it and remove the container</span></code></pre>
 <p>With automatic updates on, the next update starts a stopped or removed server again; run
   <code>sudo ./haulnet-update disable</code> first to keep it off. With systemd:</p>
-<pre><code>sudo systemctl stop haulnet-server
-sudo systemctl restart haulnet-server
-sudo systemctl disable --now haulnet-server    # stop it, no start at boot</code></pre>
+<pre><code>sudo <span class="code-command">systemctl</span> stop haulnet-server
+sudo <span class="code-command">systemctl</span> restart haulnet-server
+sudo <span class="code-command">systemctl</span> disable <span class="code-option">--now</span> haulnet-server    <span class="code-comment"># stop it, no start at boot</span></code></pre>
 <p><b>A server at home, behind a router.</b> On the router, forward UDP 27000–27002 and TCP 27080 to the machine
   that runs haulnet-server, and set <code>EXTERNAL_ADDRESS</code> to the router's public IPv4 address or a DNS name
   that points to it. Players type that address into
@@ -127,11 +127,11 @@ sudo systemctl disable --now haulnet-server    # stop it, no start at boot</code
 <p>Each release pins one LuxonServer version. When R.E.P.O. changes its Photon version, a new release follows; an
   old server is then no longer chosen for its city and servers.haulnet.cc marks it <i>Incompatible</i>, so keep it
   updated. With Docker, <code>haulnet-update</code> does it safely:</p>
-<pre><code>sudo ./haulnet-update enable     # automatic updates every 10 minutes (recommended)
-sudo ./haulnet-update status     # on/off, running version, last result
-sudo ./haulnet-update            # one check now
-sudo ./haulnet-update rollback   # back to the version before the last update
-sudo ./haulnet-update disable</code></pre>
+<pre><code>sudo <span class="code-command">./haulnet-update</span> enable     <span class="code-comment"># automatic updates every 10 minutes (recommended)</span>
+sudo <span class="code-command">./haulnet-update</span> status     <span class="code-comment"># on/off, running version, last result</span>
+sudo <span class="code-command">./haulnet-update</span>            <span class="code-comment"># one check now</span>
+sudo <span class="code-command">./haulnet-update</span> rollback   <span class="code-comment"># back to the version before the last update</span>
+sudo <span class="code-command">./haulnet-update</span> disable</code></pre>
 <p>An update installs only on an empty server. If players are on, the server <b>drains</b>: it starts no new games
   (its status says <code>"accepting": false, "draining": true</code>) while running games go on, and the next check
   installs the update once the server is empty. <b>After a single run by hand, run it again later</b> (or enable
@@ -144,7 +144,7 @@ sudo ./haulnet-update disable</code></pre>
   the service. Details: <a href="https://github.com/haulnet/haulnet-server#updating">Updating</a>.</p>
 
 <h2 id="status">Status endpoint</h2>
-<pre><code>curl http://&lt;server&gt;:27080/status</code></pre>
+<pre><code><span class="code-command">curl</span> http://&lt;server&gt;:27080/status</code></pre>
 <p>It publishes counts and versions only (name, rooms, players, limits, CPU load, <code>accepting</code>,
   <code>draining</code>, uptime), never room names, player names, addresses or IDs. Haulnet uses it to pick a server;
   the <a href="https://servers.haulnet.cc/">server list page</a> shows it live.</p>
