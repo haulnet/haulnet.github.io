@@ -161,7 +161,7 @@ class BuildTests(unittest.TestCase):
             out = Path(tmp) / "site"
             build.build(out, offline=True, now=NOW)
             names = {p.name for p in out.iterdir()}
-            self.assertTrue({"index.html", "style.css", "live.js", "404.html", ".nojekyll", "assets", "robots.txt",
+            self.assertTrue({"index.html", "style.css", "site.js", "404.html", ".nojekyll", "assets", "robots.txt",
                              "sitemap.xml"} <= names)
             self.assertFalse(names & {"_partials", "_pages", "_layout.html"})
             self.assertFalse(names & {"tools", ".github", "README.md", "LICENSE", ".git"})
@@ -214,7 +214,7 @@ class PagesTests(unittest.TestCase):
                 pages["/" + path] = text
             pages["/"] = (out / "index.html").read_text(encoding="utf-8")
             for source, text in pages.items():
-                for href in _re.findall(r'href="(/[^"]*)"', text):
+                for href in _re.findall(r'(?:href|src)="(/[^"]*)"', text):
                     path, _, anchor = href.partition("#")
                     target = out / path.lstrip("/")
                     if path.endswith("/") or path == "":
